@@ -460,23 +460,23 @@ const OutreachMBTIApp = () => {
 
   if (showResult) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-2xl w-full">
-          <div className="text-center mb-8">
-            <div className="text-8xl mb-6">{result.emoji}</div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">{result.nickname}</h1>
-            <p className="text-gray-600 leading-relaxed">{result.description}</p>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-2 sm:p-4">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 max-w-2xl w-full mx-2 sm:mx-4">
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="text-6xl sm:text-8xl mb-4 sm:mb-6">{result.emoji}</div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{result.nickname}</h1>
+            <p className="text-gray-600 leading-relaxed text-sm sm:text-base px-2 sm:px-0">{result.description}</p>
           </div>
           
-          <div className="space-y-6">
-            <div className="bg-blue-50 rounded-xl p-6">
-              <h3 className="font-semibold text-blue-800 mb-4 flex items-center">
+          <div className="space-y-4 sm:space-y-6">
+            <div className="bg-blue-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <h3 className="font-semibold text-blue-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
                 <Heart className="w-5 h-5 mr-2" />
                 ✅ 강점
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5 sm:space-y-2">
                 {result.strengths.map((strength, index) => (
-                  <li key={index} className="text-blue-700 text-sm flex items-start">
+                  <li key={index} className="text-blue-700 text-xs sm:text-sm flex items-start">
                     <span className="text-blue-500 mr-2">•</span>
                     {strength}
                   </li>
@@ -484,14 +484,14 @@ const OutreachMBTIApp = () => {
               </ul>
             </div>
 
-            <div className="bg-orange-50 rounded-xl p-6">
-              <h3 className="font-semibold text-orange-800 mb-4 flex items-center">
+            <div className="bg-orange-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <h3 className="font-semibold text-orange-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
                 <Lightbulb className="w-5 h-5 mr-2" />
                 ⚠️ 주의점
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5 sm:space-y-2">
                 {result.cautions.map((caution, index) => (
-                  <li key={index} className="text-orange-700 text-sm flex items-start">
+                  <li key={index} className="text-orange-700 text-xs sm:text-sm flex items-start">
                     <span className="text-orange-500 mr-2">•</span>
                     {caution}
                   </li>
@@ -499,14 +499,14 @@ const OutreachMBTIApp = () => {
               </ul>
             </div>
 
-            <div className="bg-green-50 rounded-xl p-6">
-              <h3 className="font-semibold text-green-800 mb-4 flex items-center">
+            <div className="bg-green-50 rounded-lg sm:rounded-xl p-4 sm:p-6">
+              <h3 className="font-semibold text-green-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
                 <Users className="w-5 h-5 mr-2" />
                 🙌 추천 사역
               </h3>
-              <ul className="space-y-2">
+              <ul className="space-y-1.5 sm:space-y-2">
                 {result.recommendedMinistry.map((ministry, index) => (
-                  <li key={index} className="text-green-700 text-sm flex items-start">
+                  <li key={index} className="text-green-700 text-xs sm:text-sm flex items-start">
                     <span className="text-green-500 mr-2">•</span>
                     {ministry}
                   </li>
@@ -517,7 +517,7 @@ const OutreachMBTIApp = () => {
 
           <button
             onClick={resetTest}
-            className="mt-8 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center"
+            className="mt-6 sm:mt-8 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
           >
             <RotateCcw className="w-5 h-5 mr-2" />
             다시 테스트하기
@@ -529,42 +529,42 @@ const OutreachMBTIApp = () => {
 
   if (showIntro) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-        <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full">
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-2 sm:p-4">
+        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 max-w-lg w-full mx-2 sm:mx-4">
           <div className="text-center">
-            <div className="text-6xl mb-6">⛪</div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-4">아웃리치 성향 테스트</h1>
-            <p className="text-gray-600 mb-8 leading-relaxed">
+            <div className="text-4xl sm:text-6xl mb-4 sm:mb-6">⛪</div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">아웃리치 성향 테스트</h1>
+            <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 leading-relaxed px-2 sm:px-0">
               12개의 간단한 질문으로 당신의 아웃리치 성향을 알아보세요!<br/>
               4가지 축을 기반으로 16가지 유형 중 당신만의 스타일을 찾아드려요.
             </p>
             
-            <div className="grid grid-cols-2 gap-4 mb-8">
-              <div className="bg-blue-50 rounded-xl p-4">
-                <Users className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-blue-800">전달 방식</h3>
-                <p className="text-sm text-blue-600">선포형 vs 동행형</p>
+            <div className="grid grid-cols-2 gap-2 sm:gap-4 mb-6 sm:mb-8">
+              <div className="bg-blue-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mx-auto mb-1 sm:mb-2" />
+                <h3 className="font-semibold text-blue-800 text-sm sm:text-base">전달 방식</h3>
+                <p className="text-xs sm:text-sm text-blue-600">선포형 vs 동행형</p>
               </div>
-              <div className="bg-green-50 rounded-xl p-4">
-                <Target className="w-8 h-8 text-green-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-green-800">사역 전략</h3>
-                <p className="text-sm text-green-600">구조형 vs 유동형</p>
+              <div className="bg-green-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 mx-auto mb-1 sm:mb-2" />
+                <h3 className="font-semibold text-green-800 text-sm sm:text-base">사역 전략</h3>
+                <p className="text-xs sm:text-sm text-green-600">구조형 vs 유동형</p>
               </div>
-              <div className="bg-purple-50 rounded-xl p-4">
-                <Heart className="w-8 h-8 text-purple-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-purple-800">사역 초점</h3>
-                <p className="text-sm text-purple-600">개인형 vs 구조형</p>
+              <div className="bg-purple-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-1 sm:mb-2" />
+                <h3 className="font-semibold text-purple-800 text-sm sm:text-base">사역 초점</h3>
+                <p className="text-xs sm:text-sm text-purple-600">개인형 vs 구조형</p>
               </div>
-              <div className="bg-orange-50 rounded-xl p-4">
-                <Lightbulb className="w-8 h-8 text-orange-600 mx-auto mb-2" />
-                <h3 className="font-semibold text-orange-800">실행 방식</h3>
-                <p className="text-sm text-orange-600">리더형 vs 백업형</p>
+              <div className="bg-orange-50 rounded-lg sm:rounded-xl p-3 sm:p-4">
+                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600 mx-auto mb-1 sm:mb-2" />
+                <h3 className="font-semibold text-orange-800 text-sm sm:text-base">실행 방식</h3>
+                <p className="text-xs sm:text-sm text-orange-600">리더형 vs 백업형</p>
               </div>
             </div>
 
             <button
               onClick={() => setShowIntro(false)}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-8 py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center mx-auto"
+              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base"
             >
               테스트 시작하기
               <ChevronRight className="w-5 h-5 ml-2" />
@@ -576,14 +576,14 @@ const OutreachMBTIApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-2xl p-8 max-w-lg w-full">
-        <div className="mb-6">
-          <div className="flex justify-between items-center mb-4">
-            <span className="text-sm font-medium text-gray-600">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-2 sm:p-4">
+      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-4 sm:p-8 max-w-lg w-full mx-2 sm:mx-4">
+        <div className="mb-4 sm:mb-6">
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
+            <span className="text-xs sm:text-sm font-medium text-gray-600">
               {currentQuestion + 1} / {questions.length}
             </span>
-            <span className="text-sm font-medium text-blue-600">
+            <span className="text-xs sm:text-sm font-medium text-blue-600">
               {Math.round(progressPercentage)}%
             </span>
           </div>
@@ -595,19 +595,19 @@ const OutreachMBTIApp = () => {
           </div>
         </div>
 
-        <div className="mb-8">
-          <h2 className="text-xl font-bold text-gray-800 mb-6 leading-relaxed">
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 leading-relaxed px-1 sm:px-0">
             {questions[currentQuestion].text}
           </h2>
           
-          <div className="space-y-3">
+          <div className="space-y-2 sm:space-y-3">
             {questions[currentQuestion].options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
-                className="w-full p-4 text-left bg-gray-50 hover:bg-blue-50 rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200 hover:shadow-md"
+                className="w-full p-3 sm:p-4 text-left bg-gray-50 hover:bg-blue-50 rounded-lg sm:rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200 hover:shadow-md"
               >
-                <span className="text-gray-800">{option.text}</span>
+                <span className="text-gray-800 text-sm sm:text-base">{option.text}</span>
               </button>
             ))}
           </div>
@@ -616,7 +616,7 @@ const OutreachMBTIApp = () => {
         {currentQuestion > 0 && (
           <button
             onClick={() => setCurrentQuestion(currentQuestion - 1)}
-            className="text-gray-500 hover:text-gray-700 flex items-center text-sm"
+            className="text-gray-500 hover:text-gray-700 flex items-center text-xs sm:text-sm"
           >
             ← 이전 질문으로
           </button>
