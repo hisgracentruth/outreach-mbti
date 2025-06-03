@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb } from 'lucide-react';
+import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles } from 'lucide-react';
 
 const OutreachMBTIApp = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -460,66 +460,81 @@ const OutreachMBTIApp = () => {
 
   if (showResult) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-1 sm:p-4">
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4">
-          <div className="text-center mb-5 sm:mb-8">
-            <div className="text-6xl sm:text-8xl mb-3 sm:mb-6">{result.emoji}</div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-2">{result.nickname}</h1>
-            <p className="text-gray-600 leading-relaxed text-sm sm:text-base px-1 sm:px-0">{result.description}</p>
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+        {/* 배경 장식 */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-pink-500 rounded-full blur-2xl"></div>
+        </div>
+        
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
+          {/* 결과 헤더 */}
+          <div className="text-center mb-6 sm:mb-8">
+            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
+            <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 tracking-tight">{result.nickname}</h1>
           </div>
           
-          <div className="space-y-3 sm:space-y-6">
-            <div className="bg-blue-50 rounded-lg sm:rounded-xl p-3 sm:p-6">
-              <h3 className="font-semibold text-blue-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                <Heart className="w-5 h-5 mr-2" />
-                ✅ 강점
+          {/* 결과 카드들 */}
+          <div className="space-y-4 sm:space-y-6">
+            <div className="bg-gradient-to-r from-rose-500/20 to-pink-500/20 backdrop-blur-sm border border-rose-400/30 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-rose-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+                <Heart className="w-5 h-5 mr-3" />
+                나의 아웃리치 성향
               </h3>
-              <ul className="space-y-1.5 sm:space-y-2">
+              <p className="text-white/90 text-sm sm:text-base leading-relaxed">{result.description}</p>
+            </div>
+            <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-emerald-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+                <Sparkles className="w-5 h-5 mr-3" />
+                강점 & 재능
+              </h3>
+              <div className="space-y-2">
                 {result.strengths.map((strength, index) => (
-                  <li key={index} className="text-blue-700 text-xs sm:text-sm flex items-start">
-                    <span className="text-blue-500 mr-2">•</span>
-                    {strength}
-                  </li>
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-emerald-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{strength}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            <div className="bg-orange-50 rounded-lg sm:rounded-xl p-3 sm:p-6">
-              <h3 className="font-semibold text-orange-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                <Lightbulb className="w-5 h-5 mr-2" />
-                ⚠️ 주의점
+            <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-amber-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+                <Lightbulb className="w-5 h-5 mr-3" />
+                성장 포인트
               </h3>
-              <ul className="space-y-1.5 sm:space-y-2">
+              <div className="space-y-2">
                 {result.cautions.map((caution, index) => (
-                  <li key={index} className="text-orange-700 text-xs sm:text-sm flex items-start">
-                    <span className="text-orange-500 mr-2">•</span>
-                    {caution}
-                  </li>
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{caution}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            <div className="bg-green-50 rounded-lg sm:rounded-xl p-3 sm:p-6">
-              <h3 className="font-semibold text-green-800 mb-3 sm:mb-4 flex items-center text-sm sm:text-base">
-                <Users className="w-5 h-5 mr-2" />
-                🙌 추천 사역
+            <div className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-sm border border-violet-400/30 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-violet-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+                <Users className="w-5 h-5 mr-3" />
+                추천 사역
               </h3>
-              <ul className="space-y-1.5 sm:space-y-2">
+              <div className="space-y-2">
                 {result.recommendedMinistry.map((ministry, index) => (
-                  <li key={index} className="text-green-700 text-xs sm:text-sm flex items-start">
-                    <span className="text-green-500 mr-2">•</span>
-                    {ministry}
-                  </li>
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-violet-400 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{ministry}</p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
           </div>
 
           <button
             onClick={resetTest}
-            className="mt-5 sm:mt-8 w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center text-sm sm:text-base"
+            className="mt-6 sm:mt-8 w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/20"
           >
-            <RotateCcw className="w-5 h-5 mr-2" />
+            <RotateCcw className="w-5 h-5 mr-3" />
             다시 테스트하기
           </button>
         </div>
@@ -529,45 +544,57 @@ const OutreachMBTIApp = () => {
 
   if (showIntro) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-1 sm:p-4">
-        <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-8 max-w-lg w-full mx-1 sm:mx-4">
+      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+        {/* 배경 애니메이션 */}
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-pink-500 rounded-full blur-2xl animate-pulse delay-500"></div>
+        </div>
+        
+        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
           <div className="text-center">
-            <div className="text-4xl sm:text-6xl mb-4 sm:mb-6">⛪</div>
-            <h1 className="text-2xl sm:text-3xl font-bold text-gray-800 mb-3 sm:mb-4">아웃리치 성향 테스트</h1>
-            <p className="text-sm sm:text-base text-gray-600 mb-6 sm:mb-8 leading-relaxed px-1 sm:px-0">
-              12개의 간단한 질문으로 당신의 아웃리치 성향을 알아보세요!<br/>
-              4가지 축을 기반으로 16가지 유형 중 당신만의 스타일을 찾아드려요.
+            <div className="text-5xl sm:text-7xl mb-4 sm:mb-6 animate-bounce">✨</div>
+            <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 sm:mb-4 tracking-tight">
+              아웃리치 성향
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+                테스트
+              </span>
+            </h1>
+            <p className="text-white/80 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base px-2 sm:px-0 font-medium">
+              12개의 질문으로 당신만의 사역 스타일을 발견하고,<br/>
+              16가지 개성 넘치는 캐릭터 중 당신의 모습을 찾아보세요!
             </p>
             
-            <div className="grid grid-cols-2 gap-1.5 sm:gap-4 mb-6 sm:mb-8">
-              <div className="bg-blue-50 rounded-lg sm:rounded-xl p-2.5 sm:p-4">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mx-auto mb-1 sm:mb-2" />
-                <h3 className="font-semibold text-blue-800 text-sm sm:text-base">전달 방식</h3>
-                <p className="text-xs sm:text-sm text-blue-600">선포형 vs 동행형</p>
+            <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
+              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-300 mx-auto mb-2" />
+                <h3 className="font-bold text-blue-200 text-xs sm:text-sm">전달 방식</h3>
+                <p className="text-blue-300/80 text-xs">선포형 vs 동행형</p>
               </div>
-              <div className="bg-green-50 rounded-lg sm:rounded-xl p-2.5 sm:p-4">
-                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-green-600 mx-auto mb-1 sm:mb-2" />
-                <h3 className="font-semibold text-green-800 text-sm sm:text-base">사역 전략</h3>
-                <p className="text-xs sm:text-sm text-green-600">구조형 vs 유동형</p>
+              <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-300 mx-auto mb-2" />
+                <h3 className="font-bold text-emerald-200 text-xs sm:text-sm">사역 전략</h3>
+                <p className="text-emerald-300/80 text-xs">구조형 vs 유동형</p>
               </div>
-              <div className="bg-purple-50 rounded-lg sm:rounded-xl p-2.5 sm:p-4">
-                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-1 sm:mb-2" />
-                <h3 className="font-semibold text-purple-800 text-sm sm:text-base">사역 초점</h3>
-                <p className="text-xs sm:text-sm text-purple-600">개인형 vs 구조형</p>
+              <div className="bg-gradient-to-br from-purple-500/20 to-violet-500/20 backdrop-blur-sm border border-purple-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-purple-300 mx-auto mb-2" />
+                <h3 className="font-bold text-purple-200 text-xs sm:text-sm">사역 초점</h3>
+                <p className="text-purple-300/80 text-xs">개인형 vs 구조형</p>
               </div>
-              <div className="bg-orange-50 rounded-lg sm:rounded-xl p-2.5 sm:p-4">
-                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600 mx-auto mb-1 sm:mb-2" />
-                <h3 className="font-semibold text-orange-800 text-sm sm:text-base">실행 방식</h3>
-                <p className="text-xs sm:text-sm text-orange-600">리더형 vs 백업형</p>
+              <div className="bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-amber-300 mx-auto mb-2" />
+                <h3 className="font-bold text-amber-200 text-xs sm:text-sm">실행 방식</h3>
+                <p className="text-amber-300/80 text-xs">리더형 vs 백업형</p>
               </div>
             </div>
 
             <button
               onClick={() => setShowIntro(false)}
-              className="bg-gradient-to-r from-blue-500 to-purple-600 text-white px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-semibold hover:from-blue-600 hover:to-purple-700 transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base"
+              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base border border-white/20"
             >
               테스트 시작하기
-              <ChevronRight className="w-5 h-5 ml-2" />
+              <ChevronRight className="w-5 h-5 ml-3" />
             </button>
           </div>
         </div>
@@ -576,47 +603,60 @@ const OutreachMBTIApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 flex items-center justify-center p-1 sm:p-4">
-      <div className="bg-white rounded-2xl sm:rounded-3xl shadow-2xl p-3 sm:p-8 max-w-lg w-full mx-1 sm:mx-4">
-        <div className="mb-3 sm:mb-6">
-          <div className="flex justify-between items-center mb-2 sm:mb-4">
-            <span className="text-xs sm:text-sm font-medium text-gray-600">
+    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+      {/* 배경 장식 */}
+      <div className="absolute inset-0 opacity-10">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl"></div>
+      </div>
+      
+      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
+        {/* 진행률 표시 */}
+        <div className="mb-4 sm:mb-6">
+          <div className="flex justify-between items-center mb-3 sm:mb-4">
+            <span className="text-xs sm:text-sm font-bold text-white/80">
               {currentQuestion + 1} / {questions.length}
             </span>
-            <span className="text-xs sm:text-sm font-medium text-blue-600">
+            <span className="text-xs sm:text-sm font-bold text-purple-300">
               {Math.round(progressPercentage)}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2">
+          <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
             <div 
-              className="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-500"
+              className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-700 ease-out relative"
               style={{ width: `${progressPercentage}%` }}
-            ></div>
+            >
+              <div className="absolute inset-0 bg-white/30 animate-pulse"></div>
+            </div>
           </div>
         </div>
 
-        <div className="mb-5 sm:mb-8">
-          <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-3 sm:mb-6 leading-relaxed">
+        {/* 질문 */}
+        <div className="mb-6 sm:mb-8">
+          <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 leading-relaxed">
             {questions[currentQuestion].text}
           </h2>
           
-          <div className="space-y-2 sm:space-y-3">
+          <div className="space-y-3">
             {questions[currentQuestion].options.map((option, index) => (
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
-                className="w-full p-2.5 sm:p-4 text-left bg-gray-50 hover:bg-blue-50 rounded-lg sm:rounded-xl transition-all duration-300 border border-transparent hover:border-blue-200 hover:shadow-md"
+                className="w-full p-3 sm:p-4 text-left bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group"
               >
-                <span className="text-gray-800 text-sm sm:text-base">{option.text}</span>
+                <span className="text-white/90 group-hover:text-white text-sm sm:text-base font-medium">
+                  {option.text}
+                </span>
               </button>
             ))}
           </div>
         </div>
 
+        {/* 이전 버튼 */}
         {currentQuestion > 0 && (
           <button
             onClick={() => setCurrentQuestion(currentQuestion - 1)}
-            className="text-gray-500 hover:text-gray-700 flex items-center text-xs sm:text-sm"
+            className="text-white/60 hover:text-white/90 flex items-center text-xs sm:text-sm font-medium transition-colors"
           >
             ← 이전 질문으로
           </button>
