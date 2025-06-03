@@ -8,104 +8,104 @@ const OutreachMBTIApp = () => {
   const [showResult, setShowResult] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
 
-  const questions = [
+   const questions = [
     {
       id: 'Q1',
-      text: '분위기만 괜찮으면 "나 요즘 예수님한테 꽂혔어"부터 얘기 나온다.',
+      text: '신앙 얘기 나오는 자리, 넌 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '완전 내 스타일이야! 자연스럽게 얘기하는 편', value: 'D', score: 2 },
-        { text: '그런 편이긴 한데, 상황 봐가면서', value: 'D', score: 1 },
-        { text: '음... 좀 부담스러울 것 같은데', value: 'C', score: 1 },
-        { text: '아니다. 차라리 들어주는 게 내 스타일', value: 'C', score: 2 }
+        { text: '“내가 하고 싶은 말이 많지 많은데?” 먼저 꺼내고 있음', value: 'D', score: 3 },
+        { text: '분위기 괜찮으면 자연스럽게 내 얘기 해', value: 'D', score: 2 },
+        { text: '다른 사람 말 먼저 듣고 타이밍 봐', value: 'C', score: 2 },
+        { text: '주로 상대방 이야기에 고개 끄덕이며 들어주는 쪽', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q2',
-      text: '말할 땐 요점부터! 빙빙 돌리는 거 답답해서 딱 정리해서 말하는 편이다.',
+      text: '하고 싶은 말이 있을 때 어떤 식으로 말해?',
       axis: '전달',
       options: [
-        { text: '맞아! 명확하게 말하는 게 최고', value: 'D', score: 2 },
-        { text: '그런 편이긴 해', value: 'D', score: 1 },
-        { text: '상황에 따라 다른 것 같은데', value: 'C', score: 1 },
-        { text: '아니지, 천천히 들어주는 게 좋아', value: 'C', score: 2 }
+        { text: '핵심 중심으로 딱 말해', value: 'D', score: 3 },
+        { text: '중요한 건 먼저 얘기하고 반응을 보는 편', value: 'D', score: 2 },
+        { text: '이야기 흐름 따라 말이 길어질 때도 있어', value: 'C', score: 2 },
+        { text: '천천히, 감정도 같이 전하는 게 좋아', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q3',
-      text: '누가 힘들어 보여도, 괜히 말 걸기보단 옆에 조용히 같이 있어주는 게 더 내 방식이다.',
+      text: '친구가 좀 힘들어 보여… 넌 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '완전 공감! 말보다 함께 있어주기', value: 'C', score: 2 },
-        { text: '그런 편인 것 같아', value: 'C', score: 1 },
-        { text: '음, 경우에 따라 다르긴 한데', value: 'D', score: 1 },
-        { text: '아니야, 뭔가 말해주고 싶어', value: 'D', score: 2 }
+        { text: '“무슨 일 있어?” 바로 다가가서 물어봐', value: 'C', score: 3 },
+        { text: '살짝 타이밍 보다가 조심스럽게 말을 걸어', value: 'C', score: 2 },
+        { text: '일단은 말 없이 옆에 있어주는 타입', value: 'D', score: 2 },
+        { text: '곁에 있는 것만으로 마음이 전해진다고 믿어', value: 'D', score: 3 }
       ]
     },
     {
       id: 'Q4',
-      text: '무슨 일이든 시작 전에 일단 계획표부터 그려야 마음이 좀 놓인다.',
+      text: '새로운 일을 하게 됐어. 첫 반응은?',
       axis: '전략',
       options: [
-        { text: '완전 맞아! 계획 없으면 불안해', value: 'S', score: 2 },
-        { text: '그런 편이야', value: 'S', score: 1 },
-        { text: '꼭 그렇지는 않은데', value: 'F', score: 1 },
-        { text: '아니다. 즉흥이 더 재미있어', value: 'F', score: 2 }
+        { text: '“계획표부터 만들자” 바로 표 짜는 타입', value: 'S', score: 3 },
+        { text: '큰 틀은 잡고 움직여야지', value: 'S', score: 2 },
+        { text: '일단 시작하고 나서 방향을 잡아가자', value: 'F', score: 2 },
+        { text: '그때그때 상황에 맞게 유연하게 하는 게 더 잘 돼', value: 'F', score: 3 }
       ]
     },
     {
       id: 'Q5',
-      text: '"그냥 해보자~" 분위기면 속으로 살짝 멘붕 온다. 기준이 있어야 움직일 수 있다.',
+      text: '누가“계획 없이 그냥 해보자!” 하면 너는?',
       axis: '전략',
       options: [
-        { text: '완전 공감... 기준이 있어야 해', value: 'S', score: 2 },
-        { text: '그런 편이긴 해', value: 'S', score: 1 },
-        { text: '상황에 따라 다른 것 같은데', value: 'F', score: 1 },
-        { text: '아니야, 그냥 해보는 게 좋아', value: 'F', score: 2 }
+        { text: '“헉… 뭐부터 해야 하지?” 머릿속이 하얘짐', value: 'S', score: 3 },
+        { text: '좀 불안하지만 기본적인 방향은 잡고 가', value: 'S', score: 2 },
+        { text: '어차피 하다 보면 길이 보여 괜찮아', value: 'F', score: 2 },
+        { text: '자유로움 속에 어떤 재미있는 일이 일어날 지 기대돼', value: 'F', score: 3 }
       ]
     },
     {
       id: 'Q6',
-      text: '계획은 참고용이지! 현장에선 유연함이 생명이지~',
+      text: '예상치 못한 상황이 터졌을 때 너는?',
       axis: '전략',
       options: [
-        { text: '완전 맞아! 현장에서 바꾸는 게 최고', value: 'F', score: 2 },
-        { text: '그런 편인 것 같아', value: 'F', score: 1 },
-        { text: '음... 적당히?', value: 'S', score: 1 },
-        { text: '아니다. 계획대로 하는 게 좋아', value: 'S', score: 2 }
+        { text: '오히려 흥미진진해 즉흥적으로 대응 가능', value: 'F', score: 3 },
+        { text: '상황에 맞게 유연하게 변경하자', value: 'F', score: 2 },
+        { text: '얼른 정리해서 다시 가자', value: 'S', score: 2 },
+        { text: '당황하지만 원래 계획대로 가보자', value: 'S', score: 3 }
       ]
     },
     {
       id: 'Q7',
-      text: '아웃리치하면서 누군가 마음 열고 조금씩 변하는 걸 보면… 그게 제일 벅차다.',
+      text: '아웃리치 중에 뭐가 제일 먼저 눈에 들어와?',
       axis: '초점',
       options: [
-        { text: '완전 공감! 한 사람의 변화가 최고야', value: 'I', score: 2 },
-        { text: '그런 편이야', value: 'I', score: 1 },
-        { text: '좋긴 한데, 더 큰 그림도 생각해', value: 'X', score: 1 },
-        { text: '구조적 변화가 더 중요한 것 같아', value: 'X', score: 2 }
+        { text: '이곳이 어떤 구조로 움직이고 있는지', value: 'X', score: 3 },
+        { text: '이곳 사람들이 어떻게 지내는지', value: 'X', score: 2 },
+        { text: '조용한 친구가 무엇이 불편한지', value: 'I', score: 2 },
+        { text: '누구의 표정이 굳어 있는지', value: 'I', score: 3 }
       ]
     },
     {
       id: 'Q8',
-      text: '이 사역, 사람 몇 명보다 "동네 분위기" 바꾸면 대박 아닌가?',
+      text: '아웃리치 중에 가장 오래 기억에 남는 장면이 무엇일 것 같아?',
       axis: '초점',
       options: [
-        { text: '완전 맞아! 시스템 변화가 진짜야', value: 'X', score: 2 },
-        { text: '그런 것 같기도 하고', value: 'X', score: 1 },
-        { text: '둘 다 중요하긴 한데', value: 'I', score: 1 },
-        { text: '아니야, 개인 변화가 우선이지', value: 'I', score: 2 }
+        { text: '말 없던 친구가 작은 목소리로 “기도해볼래요” 하는 순간', value: 'I', score: 3 },
+        { text: '조심스럽게 마음을 열고 속 이야기를 시작하는 표정', value: 'I', score: 2 },
+        { text: '아웃리치팀이 큰 은혜를 받고서 환하게 ', value: 'X', score: 2 },
+        { text: '누구도 기대하지 않았던 변화가 마을 전체에서 퍼졌던 순간', value: 'X', score: 3 }
       ]
     },
     {
       id: 'Q9',
-      text: '개인 얘기보단, 팀 전체 분위기나 방향이 더 먼저 보인다.',
+      text: '넌 왜 아웃리치를 해? 뭐가 제일 중요해?',
       axis: '초점',
       options: [
-        { text: '맞아! 전체적인 그림이 먼저 보여', value: 'X', score: 2 },
-        { text: '그런 편인 것 같아', value: 'X', score: 1 },
-        { text: '개인도 중요하긴 해', value: 'I', score: 1 },
-        { text: '아니야, 개인이 더 먼저 보여', value: 'I', score: 2 }
+        { text: '마을이 새로운 방식으로 돌아가기 시작할 때', value: 'X', score: 3 },
+        { text: '사역지 분위기가 환하게 바뀐 느낌이 들 때', value: 'X', score: 2 },
+        { text: '마음을 열고 먼저 다가오는 사람을 볼 때', value: 'I', score: 2 },
+        { text: '한 친구가 스스로 뭔가를 시도할 때', value: 'I', score: 3 }
       ]
     },
     {
@@ -113,10 +113,10 @@ const OutreachMBTIApp = () => {
       text: '상황이 어수선하면 자동으로 "일단 내가 정리할게" 모드 된다.',
       axis: '실행',
       options: [
-        { text: '완전 내 모습! 앞장서서 정리해', value: 'L', score: 2 },
-        { text: '그런 편이야', value: 'L', score: 1 },
-        { text: '상황 봐가면서', value: 'B', score: 1 },
-        { text: '아니야, 도와주는 게 더 편해', value: 'B', score: 2 }
+        { text: '완전 내 모습! 앞장서서 정리해', value: 'L', score: 3 },
+        { text: '그런 편이야', value: 'L', score: 2 },
+        { text: '상황 봐가면서', value: 'B', score: 2 },
+        { text: '아니야, 도와주는 게 더 편해', value: 'B', score: 3 }
       ]
     },
     {
@@ -124,10 +124,10 @@ const OutreachMBTIApp = () => {
       text: '앞에 서는 것보단, 뒤에서 정리하고 도와주는 포지션이 더 편하다.',
       axis: '실행',
       options: [
-        { text: '완전 맞아! 서포트가 최고야', value: 'B', score: 2 },
-        { text: '그런 편이야', value: 'B', score: 1 },
-        { text: '경우에 따라 다른데', value: 'L', score: 1 },
-        { text: '아니야, 앞에서 이끄는 게 좋아', value: 'L', score: 2 }
+        { text: '완전 맞아! 서포트가 최고야', value: 'B', score: 3 },
+        { text: '그런 편이야', value: 'B', score: 2 },
+        { text: '경우에 따라 다른데', value: 'L', score: 2 },
+        { text: '아니야, 앞에서 이끄는 게 좋아', value: 'L', score: 3 }
       ]
     },
     {
@@ -135,14 +135,14 @@ const OutreachMBTIApp = () => {
       text: '중요한 일일수록 "내가 맡고 끝내야 속이 시원"하다.',
       axis: '실행',
       options: [
-        { text: '완전 공감! 내가 해야 마음 편해', value: 'L', score: 2 },
-        { text: '그런 편이긴 해', value: 'L', score: 1 },
-        { text: '상황에 따라 다른 것 같은데', value: 'B', score: 1 },
-        { text: '아니야, 함께 하는 게 좋아', value: 'B', score: 2 }
+        { text: '완전 공감! 내가 해야 마음 편해', value: 'L', score: 3 },
+        { text: '그런 편이긴 해', value: 'L', score: 2 },
+        { text: '상황에 따라 다른 것 같은데', value: 'B', score: 2 },
+        { text: '아니야, 함께 하는 게 좋아', value: 'B', score: 3 }
       ]
     }
   ];
-
+  
   const results = {
     'DSIL': { 
       nickname: '작전 짜는 사자', 
@@ -460,70 +460,71 @@ const OutreachMBTIApp = () => {
 
   if (showResult) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
         {/* 배경 장식 */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl"></div>
-          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-pink-500 rounded-full blur-2xl"></div>
+        <div className="absolute inset-0 opacity-30">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl"></div>
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl"></div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
+        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 tracking-tight">{result.nickname}</h1>
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-3 tracking-tight">{result.nickname}</h1>
           </div>
           
           {/* 결과 카드들 */}
           <div className="space-y-4 sm:space-y-6">
-            <div className="bg-gradient-to-r from-rose-500/20 to-pink-500/20 backdrop-blur-sm border border-rose-400/30 rounded-2xl p-4 sm:p-6">
-              <h3 className="font-bold text-rose-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+            <div className="bg-gradient-to-r from-rose-100/90 to-pink-100/90 backdrop-blur-sm border border-rose-200/50 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-rose-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
                 <Heart className="w-5 h-5 mr-3" />
                 나의 아웃리치 성향
               </h3>
-              <p className="text-white/90 text-sm sm:text-base leading-relaxed">{result.description}</p>
+              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{result.description}</p>
             </div>
-            <div className="bg-gradient-to-r from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-2xl p-4 sm:p-6">
-              <h3 className="font-bold text-emerald-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+
+            <div className="bg-gradient-to-r from-emerald-100/90 to-teal-100/90 backdrop-blur-sm border border-emerald-200/50 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-emerald-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
                 <Sparkles className="w-5 h-5 mr-3" />
                 강점 & 재능
               </h3>
               <div className="space-y-2">
                 {result.strengths.map((strength, index) => (
                   <div key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-emerald-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{strength}</p>
+                    <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{strength}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 rounded-2xl p-4 sm:p-6">
-              <h3 className="font-bold text-amber-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+            <div className="bg-gradient-to-r from-amber-100/90 to-yellow-100/90 backdrop-blur-sm border border-amber-200/50 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-amber-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
                 <Lightbulb className="w-5 h-5 mr-3" />
                 성장 포인트
               </h3>
               <div className="space-y-2">
                 {result.cautions.map((caution, index) => (
                   <div key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-amber-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{caution}</p>
+                    <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{caution}</p>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="bg-gradient-to-r from-violet-500/20 to-purple-500/20 backdrop-blur-sm border border-violet-400/30 rounded-2xl p-4 sm:p-6">
-              <h3 className="font-bold text-violet-300 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+            <div className="bg-gradient-to-r from-violet-100/90 to-purple-100/90 backdrop-blur-sm border border-violet-200/50 rounded-2xl p-4 sm:p-6">
+              <h3 className="font-bold text-violet-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
                 <Users className="w-5 h-5 mr-3" />
                 추천 사역
               </h3>
               <div className="space-y-2">
                 {result.recommendedMinistry.map((ministry, index) => (
                   <div key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-violet-400 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-white/90 text-sm sm:text-base leading-relaxed">{ministry}</p>
+                    <div className="w-2 h-2 bg-violet-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{ministry}</p>
                   </div>
                 ))}
               </div>
@@ -532,7 +533,7 @@ const OutreachMBTIApp = () => {
 
           <button
             onClick={resetTest}
-            className="mt-6 sm:mt-8 w-full bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/20"
+            className="mt-5 sm:mt-8 w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
           >
             <RotateCcw className="w-5 h-5 mr-3" />
             다시 테스트하기
@@ -544,54 +545,54 @@ const OutreachMBTIApp = () => {
 
   if (showIntro) {
     return (
-      <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+      <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
         {/* 배경 애니메이션 */}
-        <div className="absolute inset-0 opacity-20">
-          <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl animate-pulse delay-1000"></div>
-          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-pink-500 rounded-full blur-2xl animate-pulse delay-500"></div>
+        <div className="absolute inset-0 opacity-40">
+          <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl animate-pulse delay-1000"></div>
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl animate-pulse delay-500"></div>
         </div>
         
-        <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
+        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
           <div className="text-center">
             <div className="text-5xl sm:text-7xl mb-4 sm:mb-6 animate-bounce">✨</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-white mb-3 sm:mb-4 tracking-tight">
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-3 sm:mb-4 tracking-tight">
               아웃리치 성향
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-pink-400">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-pink-600">
                 테스트
               </span>
             </h1>
-            <p className="text-white/80 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base px-2 sm:px-0 font-medium">
+            <p className="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base px-2 sm:px-0 font-medium">
               12개의 질문으로 당신만의 사역 스타일을 발견하고,<br/>
               16가지 개성 넘치는 캐릭터 중 당신의 모습을 찾아보세요!
             </p>
             
             <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
-              <div className="bg-gradient-to-br from-blue-500/20 to-cyan-500/20 backdrop-blur-sm border border-blue-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
-                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-300 mx-auto mb-2" />
-                <h3 className="font-bold text-blue-200 text-xs sm:text-sm">전달 방식</h3>
-                <p className="text-blue-300/80 text-xs">선포형 vs 동행형</p>
+              <div className="bg-gradient-to-br from-blue-100/90 to-cyan-100/90 backdrop-blur-sm border border-blue-200/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Users className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600 mx-auto mb-2" />
+                <h3 className="font-bold text-blue-700 text-xs sm:text-sm">전달 방식</h3>
+                <p className="text-blue-500 text-xs">선포형 vs 동행형</p>
               </div>
-              <div className="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
-                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-300 mx-auto mb-2" />
-                <h3 className="font-bold text-emerald-200 text-xs sm:text-sm">사역 전략</h3>
-                <p className="text-emerald-300/80 text-xs">구조형 vs 유동형</p>
+              <div className="bg-gradient-to-br from-emerald-100/90 to-teal-100/90 backdrop-blur-sm border border-emerald-200/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Target className="w-6 h-6 sm:w-8 sm:h-8 text-emerald-600 mx-auto mb-2" />
+                <h3 className="font-bold text-emerald-700 text-xs sm:text-sm">사역 전략</h3>
+                <p className="text-emerald-500 text-xs">구조형 vs 유동형</p>
               </div>
-              <div className="bg-gradient-to-br from-purple-500/20 to-violet-500/20 backdrop-blur-sm border border-purple-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
-                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-purple-300 mx-auto mb-2" />
-                <h3 className="font-bold text-purple-200 text-xs sm:text-sm">사역 초점</h3>
-                <p className="text-purple-300/80 text-xs">개인형 vs 구조형</p>
+              <div className="bg-gradient-to-br from-purple-100/90 to-violet-100/90 backdrop-blur-sm border border-purple-200/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Heart className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600 mx-auto mb-2" />
+                <h3 className="font-bold text-purple-700 text-xs sm:text-sm">사역 초점</h3>
+                <p className="text-purple-500 text-xs">개인형 vs 구조형</p>
               </div>
-              <div className="bg-gradient-to-br from-amber-500/20 to-orange-500/20 backdrop-blur-sm border border-amber-400/30 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
-                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-amber-300 mx-auto mb-2" />
-                <h3 className="font-bold text-amber-200 text-xs sm:text-sm">실행 방식</h3>
-                <p className="text-amber-300/80 text-xs">리더형 vs 백업형</p>
+              <div className="bg-gradient-to-br from-amber-100/90 to-yellow-100/90 backdrop-blur-sm border border-amber-200/50 rounded-xl p-3 sm:p-4 hover:scale-105 transition-transform">
+                <Lightbulb className="w-6 h-6 sm:w-8 sm:h-8 text-amber-600 mx-auto mb-2" />
+                <h3 className="font-bold text-amber-700 text-xs sm:text-sm">실행 방식</h3>
+                <p className="text-amber-500 text-xs">리더형 vs 백업형</p>
               </div>
             </div>
 
             <button
               onClick={() => setShowIntro(false)}
-              className="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base border border-white/20"
+              className="bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center mx-auto text-sm sm:text-base border border-white/30"
             >
               테스트 시작하기
               <ChevronRight className="w-5 h-5 ml-3" />
@@ -603,25 +604,25 @@ const OutreachMBTIApp = () => {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
       {/* 배경 장식 */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-20 left-10 w-32 h-32 bg-purple-500 rounded-full blur-3xl"></div>
-        <div className="absolute bottom-20 right-10 w-40 h-40 bg-blue-500 rounded-full blur-3xl"></div>
+      <div className="absolute inset-0 opacity-30">
+        <div className="absolute top-20 left-10 w-32 h-32 bg-yellow-300 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-20 right-10 w-40 h-40 bg-pink-300 rounded-full blur-3xl"></div>
       </div>
       
-      <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
+      <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-lg w-full mx-1 sm:mx-4 relative shadow-2xl">
         {/* 진행률 표시 */}
         <div className="mb-4 sm:mb-6">
           <div className="flex justify-between items-center mb-3 sm:mb-4">
-            <span className="text-xs sm:text-sm font-bold text-white/80">
+            <span className="text-xs sm:text-sm font-bold text-gray-600">
               {currentQuestion + 1} / {questions.length}
             </span>
-            <span className="text-xs sm:text-sm font-bold text-purple-300">
+            <span className="text-xs sm:text-sm font-bold text-purple-600">
               {Math.round(progressPercentage)}%
             </span>
           </div>
-          <div className="w-full bg-white/20 rounded-full h-2 overflow-hidden">
+          <div className="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
             <div 
               className="bg-gradient-to-r from-purple-500 to-pink-500 h-2 rounded-full transition-all duration-700 ease-out relative"
               style={{ width: `${progressPercentage}%` }}
@@ -633,7 +634,7 @@ const OutreachMBTIApp = () => {
 
         {/* 질문 */}
         <div className="mb-6 sm:mb-8">
-          <h2 className="text-lg sm:text-xl font-bold text-white mb-4 sm:mb-6 leading-relaxed">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-800 mb-4 sm:mb-6 leading-relaxed">
             {questions[currentQuestion].text}
           </h2>
           
@@ -642,9 +643,9 @@ const OutreachMBTIApp = () => {
               <button
                 key={index}
                 onClick={() => handleAnswer(option)}
-                className="w-full p-3 sm:p-4 text-left bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 hover:border-white/40 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group"
+                className="w-full p-3 sm:p-4 text-left bg-white/60 hover:bg-white/80 backdrop-blur-sm border border-gray-200 hover:border-purple-300 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg group"
               >
-                <span className="text-white/90 group-hover:text-white text-sm sm:text-base font-medium">
+                <span className="text-gray-700 group-hover:text-gray-800 text-sm sm:text-base font-medium">
                   {option.text}
                 </span>
               </button>
@@ -656,7 +657,7 @@ const OutreachMBTIApp = () => {
         {currentQuestion > 0 && (
           <button
             onClick={() => setCurrentQuestion(currentQuestion - 1)}
-            className="text-white/60 hover:text-white/90 flex items-center text-xs sm:text-sm font-medium transition-colors"
+            className="text-gray-500 hover:text-gray-700 flex items-center text-xs sm:text-sm font-medium transition-colors"
           >
             ← 이전 질문으로
           </button>
