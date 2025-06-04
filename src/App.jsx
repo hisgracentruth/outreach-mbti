@@ -82,8 +82,8 @@ const OutreachMBTIApp = () => {
       options: [
         { text: '이곳이 현재 어떤 상황에 처해있는지', value: 'X', score: 3 },
         { text: '이곳 사람들이 어떻게 지내는지', value: 'X', score: 2 },
-        { text: '한 조용한 친구가 무엇이 불편한지', value: 'I', score: 2 },
-        { text: '누구의 표정이 굳어 있는지', value: 'I', score: 3 }
+        { text: '이곳 사람들 중에 누구의 표정이 굳어있는지', value: 'I', score: 2 },
+        { text: '이곳 어느 아이의 ', value: 'I', score: 3 }
       ]
     },
     {
