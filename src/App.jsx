@@ -11,78 +11,78 @@ const OutreachMBTIApp = () => {
    const questions = [
     {
       id: 'Q1',
-      text: '신앙 얘기 나오는 자리, 넌 어떻게 해?',
+      text: '누군가가 신앙 얘기를 꺼내면, 너는?',
       axis: '전달',
       options: [
-        { text: '“내가 하고 싶은 말이 많지 많은데?” 먼저 꺼내고 있음', value: 'D', score: 3 },
-        { text: '분위기 괜찮으면 자연스럽게 내 얘기 해', value: 'D', score: 2 },
-        { text: '다른 사람 말 먼저 듣고 타이밍 봐', value: 'C', score: 2 },
-        { text: '주로 상대방 이야기에 고개 끄덕이며 들어주는 쪽', value: 'C', score: 3 }
+        { text: '“나 요즘 이런 생각했어” 하고 먼저 얘기 꺼냄', value: 'D', score: 3 },
+        { text: '분위기 좋으면 내 얘기도 자연스럽게 함', value: 'D', score: 2 },
+        { text: '이야기를 들으면서 표정과 리액션으로 반응함', value: 'C', score: 2 },
+        { text: '조용히 들어주면서 마음으로 공감하는 편', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q2',
-      text: '하고 싶은 말이 있을 때 어떤 식으로 말해?',
+      text: '분위기가 어색할 때 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '핵심 중심으로 딱 말해', value: 'D', score: 3 },
-        { text: '중요한 건 먼저 얘기하고 반응을 보는 편', value: 'D', score: 2 },
-        { text: '이야기 흐름 따라 말이 길어질 때도 있어', value: 'C', score: 2 },
-        { text: '천천히, 감정도 같이 전하는 게 좋아', value: 'C', score: 3 }
+        { text: '어색한 분위기 못 참아서 먼저 말 걸고 리액션 담당해', value: 'D', score: 3 },
+        { text: '살짝 농담을 던져보며 어색함을 풀려 함', value: 'D', score: 2 },
+        { text: '눈치가 빨라서 일단 분위기를 살펴', value: 'C', score: 2 },
+        { text: '자연스럽게 분위기가 풀어지기를 기다리는 편', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q3',
-      text: '친구가 좀 힘들어 보여… 넌 어떻게 해?',
+      text: '평소에 말할 때 어떤 스타일이야?',
       axis: '전달',
       options: [
-        { text: '“무슨 일 있어?” 바로 다가가서 물어봐', value: 'C', score: 3 },
-        { text: '살짝 타이밍 보다가 조심스럽게 말을 걸어', value: 'C', score: 2 },
-        { text: '일단은 말 없이 옆에 있어주는 타입', value: 'D', score: 2 },
-        { text: '곁에 있는 것만으로 마음이 전해진다고 믿어', value: 'D', score: 3 }
+        { text: '차근차근 공감하며 상대방의 마음을 열어보는 스타일이지', value: 'C', score: 3 },
+        { text: '상대방의 감정과 분위기를 신경쓰는 편', value: 'C', score: 2 },
+        { text: '중요한 포인트를 잘 정리하여 상대방에게 말하려고 해', value: 'D', score: 2 },
+        { text: '핵심 중심으로 요점을 이야기하는 편이야', value: 'D', score: 3 }
       ]
     },
     {
       id: 'Q4',
-      text: '새로운 일을 하게 됐어. 첫 반응은?',
+      text: '새로운 일을 하게 됐어. 너의 반응은?',
       axis: '전략',
       options: [
-        { text: '“계획표부터 만들자” 바로 표 짜는 타입', value: 'S', score: 3 },
+        { text: '바로 일정과 리스트를 짜는 타입', value: 'S', score: 3 },
         { text: '큰 틀은 잡고 움직여야지', value: 'S', score: 2 },
         { text: '일단 시작하고 나서 방향을 잡아가자', value: 'F', score: 2 },
-        { text: '그때그때 상황에 맞게 유연하게 하는 게 더 잘 돼', value: 'F', score: 3 }
+        { text: '상황에 맞게 유연하게 대처하는 것이 효율적이야', value: 'F', score: 3 }
       ]
     },
     {
       id: 'Q5',
-      text: '누가“계획 없이 그냥 해보자!” 하면 너는?',
-      axis: '전략',
-      options: [
-        { text: '“헉… 뭐부터 해야 하지?” 머릿속이 하얘짐', value: 'S', score: 3 },
-        { text: '좀 불안하지만 기본적인 방향은 잡고 가', value: 'S', score: 2 },
-        { text: '어차피 하다 보면 길이 보여 괜찮아', value: 'F', score: 2 },
-        { text: '자유로움 속에 어떤 재미있는 일이 일어날 지 기대돼', value: 'F', score: 3 }
-      ]
-    },
-    {
-      id: 'Q6',
-      text: '예상치 못한 상황이 터졌을 때 너는?',
+      text: '예상치 못한 상황이 터졌을 때, 너는?',
       axis: '전략',
       options: [
         { text: '오히려 흥미진진해 즉흥적으로 대응 가능', value: 'F', score: 3 },
         { text: '상황에 맞게 유연하게 변경하자', value: 'F', score: 2 },
         { text: '얼른 정리해서 다시 가자', value: 'S', score: 2 },
-        { text: '당황하지만 원래 계획대로 가보자', value: 'S', score: 3 }
+        { text: '당황스럽지만 원래 계획대로 갈 수 있어', value: 'S', score: 3 }
       ]
     },
     {
+      id: 'Q6',
+      text: '모임의 저녁 메뉴를 정해야 할 때 어떻게 해?',
+      axis: '전략',
+      options: [
+        { text: '메뉴 후보와 각각의 가격, 모임 인원들의 취향을 고려해', value: 'S', score: 3 },
+        { text: '모임에 적절한 메뉴 몇 개를 추려서 따져봐', value: 'S', score: 2 },
+        { text: '떠오르는 메뉴 몇 개 중 분위기 봐서 정해', value: 'F', score: 2 },
+        { text: '끌리는 메뉴가 있으면 그걸로 딱 결정', value: 'F', score: 3 }
+      ]
+    },
+     {
       id: 'Q7',
       text: '아웃리치 중에 뭐가 제일 먼저 눈에 들어와?',
       axis: '초점',
       options: [
-        { text: '이곳이 어떤 구조로 움직이고 있는지', value: 'X', score: 3 },
+        { text: '이곳이 현재 어떤 상황에 처해있는지', value: 'X', score: 3 },
         { text: '이곳 사람들이 어떻게 지내는지', value: 'X', score: 2 },
-        { text: '조용한 친구가 무엇이 불편한지', value: 'I', score: 2 },
+        { text: '한 조용한 친구가 무엇이 불편한지', value: 'I', score: 2 },
         { text: '누구의 표정이 굳어 있는지', value: 'I', score: 3 }
       ]
     },
