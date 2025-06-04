@@ -173,14 +173,14 @@ const OutreachMBTIApp = () => {
       strengths: [
         '풍부한 지식과 통찰력으로 상황을 분석하고 의미 있는 조언을 해줄 수 있어요',
         '맡은 일에 대해 꼼꼼하게 준비하고 성실하게 임해 팀의 신뢰를 얻고 있어요',
-        '개인에게 다정하게 다가가 공감해주는 태도로 주변 사람들에게 심리적 안정을 줘요.',
-        '말이 필요할 때만 핵심을 정확히 짚어 전달함으로써 조용하지만 큰 영향력을 발휘해요.'
+        '개인에게 다정하게 다가가 공감해주는 태도로 주변 사람들에게 심리적 안정을 줘요',
+        '말이 필요할 때만 핵심을 정확히 짚어 전달함으로써 조용하지만 큰 영향력을 발휘해요'
       ],
       cautions: [
         '필요한 말만 하다 보면 가끔 자신의 아이디어나 의견을 충분히 알리기 전에 넘어갈 때가 있으니 더 적극적으로 표현해보세요',
-        '지나친 완벽주의로 계획 변경이나 변수에 스트레스를 받을 수 있어요. 때론 상황에 맞게 융통성 있게 대응하는 여유도 필요해요.',
-        '겸손한 성격 탓에 자신의 공로를 잘 드러내지 않아 일을 혼자 떠안고 지칠 수 있으니, 때로는 도움을 요청하는 것도 잊지 마세요.',
-        '남을 돌보느라 정작 자신의 영적 성장이나 쉼을 놓칠 위험이 있으니 자기 돌봄의 시간도 의도적으로 가져보세요.'
+        '지나친 완벽주의로 계획 변경이나 변수에 스트레스를 받을 수 있어요. 때론 상황에 맞게 융통성 있게 대응하는 여유도 필요해요',
+        '겸손한 성격 탓에 자신의 공로를 잘 드러내지 않아 일을 혼자 떠안고 지칠 수 있으니, 때로는 도움을 요청하는 것도 잊지 마세요',
+        '남을 돌보느라 정작 자신의 영적 성장이나 쉼을 놓칠 위험이 있으니 자기 돌봄의 시간도 의도적으로 가져보세요'
       ],
       recommendedMinistry: [
         '양육팀 콘텐츠 제작/보조 교사: 뛰어난 준비성과 통찰력을 살려 새신자 교육 자료를 만들거나 소그룹 교사의 보조 역할을 잘 감당할 수 있어요.',
@@ -191,18 +191,23 @@ const OutreachMBTIApp = () => {
     'DSXL': { 
       nickname: '지휘하는 코끼리', 
       emoji: '🐘', 
-      description: '지휘하는 코끼리형인 당신은 큰 덩치의 코끼리처럼 한 공동체를 이끄는 든든한 리더예요.',
+      description: '지휘하는 코끼리형인 당신은 큰 덩치의 코끼리처럼 한 공동체를 이끄는 든든한 리더예요. 멀리까지 내다보는 통찰력과 풍부한 경험을 바탕으로 어디로 가야 할지 방향을 잡아 모두에게 제시해주는 모습이 인상적이에요. 새로운 사역을 계획할 때에도 전체 그림을 먼저 그리고 나서 각 단계별로 무엇이 필요한지 체계적으로 준비해요. 많은 사람들 앞에서도 당당하게 의견을 발표하고 설득력 있게 이끌기 때문에 자연스럽게 주변의 신뢰를 얻으며 팀의 선두에 서게 돼요. 이 유형은 구조지향적 성향이 강해서 개인보다는 팀이나 공동체 전체의 성장과 시스템에 관심이 많아요. 당신은 각자 따로 움직이는 것보다는 조직적인 팀워크를 중요하게 여기고, 모두가 같은 목표를 향해 질서 있게 나아갈 때 성취감을 느껴요. 그래서 사역을 할 때도 누구 한 사람 소외되거나 엇나가지 않도록 전체 인원을 아우르며 관리해요. 문제가 생기면 개인적 감정보다 원인을 분석하고 프로세스를 개선하는 데 집중하는 편이어서, 주변에서는 “우리 팀 컨트롤 타워”라는 말을 듣곤 해요. 선언형답게 말이나 프레젠테이션을 통해 사람들을 이끄는 능력이 뛰어나요. 많은 사람 앞에서 비전을 제시하거나 계획을 설명할 때도 논리적이고 자신감 있게 말해 모두를 설득해요. 팀의 방향성이 흔들릴 때는 코끼리의 우렁찬 울림처럼 분명한 목소리로 “이쪽으로 갑시다!” 하고 외쳐주니, 팀원들이 안심하고 따라오게 되죠. 당신의 명확한 커뮤니케이션은 큰 조직에서도 소통 오류를 줄이고 모두를 한 마음으로 모으는 힘이 있어요. 구조형 기질을 지니고 있어 모든 일을 체계적으로 추진하는 편이에요. 장기 플랜을 세우고, 예산부터 인력 배치까지 철저하게 챙기는 모습은 마치 코끼리가 기억력이 좋아 길을 잃지 않는다는 이야기처럼 안정감을 줘요. 동시에 원칙과 규정을 중시해서 팀이 규율을 지키며 움직이도록 잘 지도해요. 일을 할 때는 개인적인 친분이나 감정보다는 공정하고 효율적인 선택을 하고, 팀 전체의 성장에 방해가 되는 요소는 과감히 정리하는 결단력도 갖추고 있어요. DSXL형인 당신은 큰 비전을 실제 현실로 만들어가는 추진력이 뛰어난 리더예요. 하나님 나라를 위해 크고 담대한 계획을 세워 실행에 옮길 때, 많은 사람이 당신을 따라 힘을 모을 거예요. 당신의 조직 관리 능력과 명확한 비전 제시는 교회나 사역팀에 없어서는 안 될 동력이에요. 앞으로도 그 탁월한 리더십으로 공동체를 이끌고, 더 넓은 영향력을 펼쳐나가길 기대해요.',
       strengths: [
         '넓은 시야로 큰 그림을 그리고 전략적으로 팀의 목표와 방향을 제시할 수 있어요',
-        '체계적인 기획력과 조직 관리 능력으로 복잡한 사역도 차질 없이 추진해요'
+        '체계적인 기획력과 조직 관리 능력으로 복잡한 사역도 차질 없이 추진해요',
+        '다수의 사람 앞에서도 논리적이고 확신 있게 소통하여 구성원들의 신뢰와 동의를 이끌어내요',
+        '원칙을 지키며 공정하게 판단하고 필요할 때는 과감히 결정함으로써 조직 전체의 안정을 도모해요.'        
       ],
       cautions: [
-        '큰 그림을 중시하다 보면 개인의 감정이나 작은 어려움들을 간과할 위험이 있어요'
+        '큰 그림을 중시하다 보면 개인의 감정이나 작은 어려움들을 간과할 위험이 있어요. 구성원 각자의 목소리에도 귀 기울이는 여유를 가져보세요',
+        '리더로서 강한 권한을 행사할 때 자칫 독단적으로 보일 수 있으니, 의사결정 전에 주변 의견을 묻고 공감을 표현하면 좋아요',
+        '한 번 세운 계획이나 체계를 바꾸는 것을 어려워하는 경향이 있어 변화하는 상황에 유연하게 대응하려는 노력이 필요해요',
+        '책임감이 강해 모든 짐을 혼자 지려다 지칠 수 있으므로, 때로는 업무를 위임하고 팀원들과 부담을 나누는 것도 중요해요'
       ],
       recommendedMinistry: [
-        '청년부 임원/리더',
-        '단기선교/대형 아웃리치 총괄',
-        '행정/기획 팀장'
+        '청년부 임원/리더: 전체 청년 공동체를 섬기며 방향을 설정하고 조직을 이끌어가는 역할에 안성맞춤이에요. 큰 그림을 그리고 추진하는 능력으로 청년부를 활기차게 이끌 수 있어요',
+        '단기선교/대형 아웃리치 총괄: 여러 사람을 조율하고 계획하는 데 능숙하므로 선교팀장이나 아웃리치 프로젝트 매니저로서 사역 전체를 성공적으로 이끌 수 있어요',
+        '행정/기획 팀장: 행정적인 체계 수립과 예산, 일정 관리에 강점이 있어 교회의 행사 기획이나 운영위원회에서 리더십을 발휘하면 뛰어난 결과를 만들어낼 수 있어요'
       ]
     },
     'DSXB': { 
@@ -446,13 +451,33 @@ const OutreachMBTIApp = () => {
       scores[answer.value] += answer.score;
     });
 
+    // 각 축별 비율 계산 (두 성향의 합이 100%가 되도록)
+    const percentages = {
+      delivery: {
+        direct: Math.round((scores.D / (scores.D + scores.C)) * 100),
+        companion: Math.round((scores.C / (scores.D + scores.C)) * 100)
+      },
+      strategy: {
+        structured: Math.round((scores.S / (scores.S + scores.F)) * 100),
+        flexible: Math.round((scores.F / (scores.S + scores.F)) * 100)
+      },
+      focus: {
+        individual: Math.round((scores.I / (scores.I + scores.X)) * 100),
+        structural: Math.round((scores.X / (scores.I + scores.X)) * 100)
+      },
+      execution: {
+        leader: Math.round((scores.L / (scores.L + scores.B)) * 100),
+        backup: Math.round((scores.B / (scores.L + scores.B)) * 100)
+      }
+    };
+
     const resultType = 
       (scores.D >= scores.C ? 'D' : 'C') +
       (scores.S >= scores.F ? 'S' : 'F') +
       (scores.I >= scores.X ? 'I' : 'X') +
       (scores.L >= scores.B ? 'L' : 'B');
 
-    setResult(results[resultType]);
+    setResult({...results[resultType], percentages, code: resultType});
     setShowResult(true);
   };
 
@@ -480,11 +505,128 @@ const OutreachMBTIApp = () => {
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-3 tracking-tight">{result.nickname}</h1>
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result.nickname}</h1>
+            <div className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full border border-indigo-200/50">
+              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result.code}</span>
+            </div>
           </div>
           
           {/* 결과 카드들 */}
           <div className="space-y-4 sm:space-y-6">
+            {/* 성향 분석 차트 */}
+            <div className="bg-gradient-to-r from-slate-100/90 to-gray-100/90 backdrop-blur-sm border border-slate-200/50 rounded-2xl p-4 sm:p-5">
+              <h3 className="font-bold text-slate-700 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
+                <Target className="w-5 h-5 mr-3" />
+                나의 성향 분석
+              </h3>
+              
+              <div className="space-y-3">
+                {/* 전달 방식 */}
+                <div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-blue-600 font-medium">선포형(D)</span>
+                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result.percentages.delivery.direct}%</div>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
+                      <div className="flex w-full h-full">
+                        <div 
+                          className="bg-blue-500 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.delivery.direct}%` }}
+                        ></div>
+                        <div 
+                          className="bg-pink-400 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.delivery.companion}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-pink-500 font-medium">동행형(C)</span>
+                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result.percentages.delivery.companion}%</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 사역 전략 */}
+                <div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-green-600 font-medium">구조형(S)</span>
+                      <div className="text-sm font-bold text-green-700 mt-0.5">{result.percentages.strategy.structured}%</div>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
+                      <div className="flex w-full h-full">
+                        <div 
+                          className="bg-green-500 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.strategy.structured}%` }}
+                        ></div>
+                        <div 
+                          className="bg-yellow-400 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.strategy.flexible}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-yellow-500 font-medium">유동형(F)</span>
+                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result.percentages.strategy.flexible}%</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 사역 초점 */}
+                <div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-purple-600 font-medium">개인형(I)</span>
+                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result.percentages.focus.individual}%</div>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
+                      <div className="flex w-full h-full">
+                        <div 
+                          className="bg-purple-500 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.focus.individual}%` }}
+                        ></div>
+                        <div 
+                          className="bg-indigo-400 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.focus.structural}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-indigo-500 font-medium">구조형(X)</span>
+                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result.percentages.focus.structural}%</div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* 실행 방식 */}
+                <div>
+                  <div className="flex items-center space-x-4">
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-orange-600 font-medium">리더형(L)</span>
+                      <div className="text-sm font-bold text-orange-700 mt-0.5">{result.percentages.execution.leader}%</div>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
+                      <div className="flex w-full h-full">
+                        <div 
+                          className="bg-orange-500 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.execution.leader}%` }}
+                        ></div>
+                        <div 
+                          className="bg-teal-400 h-2 transition-all duration-1000"
+                          style={{ width: `${result.percentages.execution.backup}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-teal-500 font-medium">백업형(B)</span>
+                      <div className="text-sm font-bold text-teal-600 mt-0.5">{result.percentages.execution.backup}%</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="bg-gradient-to-r from-rose-100/90 to-pink-100/90 backdrop-blur-sm border border-rose-200/50 rounded-2xl p-4 sm:p-6">
               <h3 className="font-bold text-rose-600 mb-3 sm:mb-4 flex items-center text-sm sm:text-lg">
                 <Heart className="w-5 h-5 mr-3" />
