@@ -659,18 +659,14 @@ const OutreachMBTIApp = () => {
 
   const saveAsImage = async () => {
     try {
-      // 1단계: html2canvas 로드 (더 간단한 CDN 사용)
+      // 1단계: html2canvas 로드
       if (!window.html2canvas) {
         const script = document.createElement('script');
         script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
         document.head.appendChild(script);
         
-        // 로드 완료까지 대기
         await new Promise((resolve, reject) => {
-          script.onload = () => {
-            console.log('html2canvas 로드 완료');
-            resolve();
-          };
+          script.onload = resolve;
           script.onerror = () => reject(new Error('라이브러리 로드 실패'));
           setTimeout(() => reject(new Error('로드 시간 초과')), 15000);
         });
@@ -680,38 +676,63 @@ const OutreachMBTIApp = () => {
         throw new Error('결과 화면을 찾을 수 없습니다');
       }
 
-      console.log('캡처 시작...');
+      // 2단계: 왜곡 방지를 위한 정확한 캡처 설정
+      const element = resultRef.current;
+      const rect = element.getBoundingClientRect();
       
-      // 2단계: 화면 캡처 (최대한 간단한 옵션)
-      const canvas = await window.html2canvas(resultRef.current, {
-        backgroundColor: '#ffffff',
-        scale: 1,
-        logging: true,
-        useCORS: true
+      // 스크롤 위치 저장 및 맨 위로 이동
+      const originalScrollTop = window.pageYOffset;
+      window.scrollTo(0, 0);
+      
+      // 잠시 대기 (레이아웃 안정화)
+      await new Promise(resolve => setTimeout(resolve, 300));
+
+      const canvas = await window.html2canvas(element, {
+        backgroundColor: '#f0f4ff',
+        scale: 2, // 고해상도로 캡처
+        useCORS: true,
+        allowTaint: false,
+        foreignObjectRendering: false, // SVG 렌더링 개선
+        imageTimeout: 0,
+        removeContainer: true,
+        logging: false,
+        width: element.scrollWidth,
+        height: element.scrollHeight,
+        windowWidth: element.scrollWidth,
+        windowHeight: element.scrollHeight,
+        x: 0,
+        y: 0,
+        scrollX: 0,
+        scrollY: 0,
+        // 폰트 렌더링 개선
+        letterRendering: true,
+        // CSS 변형 무시
+        ignoreElements: (element) => {
+          return element.classList?.contains('animate-pulse') || 
+                 element.classList?.contains('animate-bounce');
+        }
       });
 
-      console.log('캡처 완료, 다운로드 시작...');
+      // 스크롤 위치 복원
+      window.scrollTo(0, originalScrollTop);
 
-      // 3단계: PNG로 변환 및 다운로드
-      const dataURL = canvas.toDataURL('image/png');
+      // 3단계: 고품질 PNG 생성
+      const dataURL = canvas.toDataURL('image/png', 1.0); // 최고 품질
+      
+      // 4단계: 다운로드
       const link = document.createElement('a');
-      link.download = `아웃리치-성향-결과-${Date.now()}.png`;
+      link.download = `아웃리치-성향-${result?.nickname || 'test'}-${Date.now()}.png`;
       link.href = dataURL;
       
-      // 강제 클릭으로 다운로드
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       
-      alert('PNG 이미지가 다운로드되었습니다! 다운로드 폴더를 확인해주세요.');
+      alert('고화질 PNG 이미지가 저장되었습니다! 📸');
 
     } catch (error) {
       console.error('PNG 저장 실패:', error);
-      
-      // 대안: 수동 방법 안내
-      const altMethod = `PNG 저장에 실패했습니다. 😞\n\n수동으로 저장하는 방법:\n\n1️⃣ 스크린샷 찍기:\n   • Windows: Win + Shift + S\n   • Mac: Cmd + Shift + 4\n   • 결과 화면 영역을 드래그해서 선택\n\n2️⃣ 또는 개발자 도구 사용:\n   • F12 키 누르기\n   • Console 탭에서 다음 입력:\n   html2canvas(document.querySelector('[data-result]')).then(canvas => {\n     const link = document.createElement('a');\n     link.download = 'result.png';\n     link.href = canvas.toDataURL();\n     link.click();\n   });`;
-      
-      alert(altMethod);
+      alert(`이미지 저장에 실패했습니다.\n\n수동 스크린샷 방법:\n• Windows: Win + Shift + S\n• Mac: Cmd + Shift + 4\n\n팁: 브라우저 확대율을 100%로 맞추면 더 선명해집니다!`);
     }
   };
 
