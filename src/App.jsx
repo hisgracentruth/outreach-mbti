@@ -36,7 +36,7 @@ const questions = [
     text: '친구가 잘못된 정보를 얘기하면 너는 어떻게 반응해?',
     axis: '전달',
     options: [
-      { text: '친구의 기분을 배려해서 조용히 넘어가', value: 'C', score: 3 }
+      { text: '친구의 기분을 배려해서 조용히 넘어가', value: 'C', score: 3 },
       { text: '당장은 상황을 지켜보며 기다려', value: 'C', score: 2 },
       { text: '나중에 따로 얘기해줘', value: 'D', score: 2 },
       { text: '즉시 정확하게 바로잡아줘', value: 'D', score: 3 },
