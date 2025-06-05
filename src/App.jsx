@@ -9,7 +9,7 @@ const OutreachMBTIApp = () => {
   const [showIntro, setShowIntro] = useState(true);
   const resultRef = useRef(null);
 
-   const questions = [
+    const questions = [
     {
       id: 'Q1',
       text: '친구들과 대화에서 신앙 이야기가 나오면, 너는?',
@@ -595,6 +595,36 @@ const OutreachMBTIApp = () => {
     }
   };
 
+  // 이미지 저장 함수
+  const saveAsImage = async () => {
+    if (!resultRef.current) return;
+    
+    try {
+      // html2canvas 라이브러리를 동적으로 로드
+      const html2canvas = await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      
+      const canvas = await html2canvas.default(resultRef.current, {
+        backgroundColor: '#f8fafc',
+        scale: 2, // 고해상도
+        useCORS: true,
+        allowTaint: true,
+        scrollX: 0,
+        scrollY: 0,
+        width: resultRef.current.scrollWidth,
+        height: resultRef.current.scrollHeight
+      });
+      
+      // 이미지 다운로드
+      const link = document.createElement('a');
+      link.download = `아웃리치_성향테스트_결과_${result.nickname}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (error) {
+      console.error('이미지 저장 중 오류가 발생했습니다:', error);
+      alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+    }
+  };
+
   const handleAnswer = (option) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: option };
     setAnswers(newAnswers);
@@ -613,27 +643,64 @@ const OutreachMBTIApp = () => {
       scores[answer.value] += answer.score;
     });
 
-    // 각 축별로 점수 합계를 기반으로 비율 계산
+    // 개선된 퍼센트 계산 로직
+    const calculatePercentages = (score1, score2) => {
+      const total = score1 + score2;
+      const diff = Math.abs(score1 - score2);
+      
+      // 차이가 클수록 더 극단적인 비율을 만들어줌
+      if (total === 0) return { first: 50, second: 50 };
+      
+      // 기본 비율 계산
+      let firstPercent = Math.round((score1 / total) * 100);
+      let secondPercent = 100 - firstPercent;
+      
+      // 차이에 따른 가중치 적용 (차이가 클수록 더 극단적으로)
+      if (diff >= 4) { // 큰 차이 (예: 3-3-3 vs 2-2-2 등)
+        const stronger = score1 > score2 ? 'first' : 'second';
+        if (stronger === 'first') {
+          firstPercent = Math.min(85, firstPercent + Math.floor(diff * 2));
+          secondPercent = 100 - firstPercent;
+        } else {
+          secondPercent = Math.min(85, secondPercent + Math.floor(diff * 2));
+          firstPercent = 100 - secondPercent;
+        }
+      } else if (diff >= 2) { // 중간 차이
+        const stronger = score1 > score2 ? 'first' : 'second';
+        if (stronger === 'first') {
+          firstPercent = Math.min(75, firstPercent + Math.floor(diff * 1.5));
+          secondPercent = 100 - firstPercent;
+        } else {
+          secondPercent = Math.min(75, secondPercent + Math.floor(diff * 1.5));
+          firstPercent = 100 - secondPercent;
+        }
+      }
+      
+      return { first: firstPercent, second: secondPercent };
+    };
+
+    // 각 축별 비율 계산
+    const deliveryPerc = calculatePercentages(scores.D, scores.C);
+    const strategyPerc = calculatePercentages(scores.S, scores.F);
+    const focusPerc = calculatePercentages(scores.I, scores.X);
+    const executionPerc = calculatePercentages(scores.L, scores.B);
+
     const percentages = {
       delivery: {
-        total: scores.D + scores.C,
-        direct: scores.D > 0 ? Math.round((scores.D / (scores.D + scores.C)) * 100) : 0,
-        companion: scores.C > 0 ? Math.round((scores.C / (scores.D + scores.C)) * 100) : 0
+        direct: deliveryPerc.first,
+        companion: deliveryPerc.second
       },
       strategy: {
-        total: scores.S + scores.F,
-        structured: scores.S > 0 ? Math.round((scores.S / (scores.S + scores.F)) * 100) : 0,
-        flexible: scores.F > 0 ? Math.round((scores.F / (scores.S + scores.F)) * 100) : 0
+        structured: strategyPerc.first,
+        flexible: strategyPerc.second
       },
       focus: {
-        total: scores.I + scores.X,
-        individual: scores.I > 0 ? Math.round((scores.I / (scores.I + scores.X)) * 100) : 0,
-        structural: scores.X > 0 ? Math.round((scores.X / (scores.I + scores.X)) * 100) : 0
+        individual: focusPerc.first,
+        structural: focusPerc.second
       },
       execution: {
-        total: scores.L + scores.B,
-        leader: scores.L > 0 ? Math.round((scores.L / (scores.L + scores.B)) * 100) : 0,
-        backup: scores.B > 0 ? Math.round((scores.B / (scores.L + scores.B)) * 100) : 0
+        leader: executionPerc.first,
+        backup: executionPerc.second
       }
     };
 
@@ -643,9 +710,7 @@ const OutreachMBTIApp = () => {
       (scores.I >= scores.X ? 'I' : 'X') +
       (scores.L >= scores.B ? 'L' : 'B');
 
-    // 결과가 없으면 기본값 사용
-    const resultData = results[resultType] || results['DSIL'];
-    setResult({...resultData, percentages, code: resultType, scores});
+    setResult({...results[resultType], percentages, code: resultType});
     setShowResult(true);
   };
 
@@ -655,85 +720,6 @@ const OutreachMBTIApp = () => {
     setResult(null);
     setShowResult(false);
     setShowIntro(true);
-  };
-
-  const saveAsImage = async () => {
-    try {
-      // 1단계: html2canvas 로드
-      if (!window.html2canvas) {
-        const script = document.createElement('script');
-        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
-        document.head.appendChild(script);
-        
-        await new Promise((resolve, reject) => {
-          script.onload = resolve;
-          script.onerror = () => reject(new Error('라이브러리 로드 실패'));
-          setTimeout(() => reject(new Error('로드 시간 초과')), 15000);
-        });
-      }
-
-      if (!resultRef.current) {
-        throw new Error('결과 화면을 찾을 수 없습니다');
-      }
-
-      // 2단계: 왜곡 방지를 위한 정확한 캡처 설정
-      const element = resultRef.current;
-      const rect = element.getBoundingClientRect();
-      
-      // 스크롤 위치 저장 및 맨 위로 이동
-      const originalScrollTop = window.pageYOffset;
-      window.scrollTo(0, 0);
-      
-      // 잠시 대기 (레이아웃 안정화)
-      await new Promise(resolve => setTimeout(resolve, 300));
-
-      const canvas = await window.html2canvas(element, {
-        backgroundColor: '#f0f4ff',
-        scale: 2, // 고해상도로 캡처
-        useCORS: true,
-        allowTaint: false,
-        foreignObjectRendering: false, // SVG 렌더링 개선
-        imageTimeout: 0,
-        removeContainer: true,
-        logging: false,
-        width: element.scrollWidth,
-        height: element.scrollHeight,
-        windowWidth: element.scrollWidth,
-        windowHeight: element.scrollHeight,
-        x: 0,
-        y: 0,
-        scrollX: 0,
-        scrollY: 0,
-        // 폰트 렌더링 개선
-        letterRendering: true,
-        // CSS 변형 무시
-        ignoreElements: (element) => {
-          return element.classList?.contains('animate-pulse') || 
-                 element.classList?.contains('animate-bounce');
-        }
-      });
-
-      // 스크롤 위치 복원
-      window.scrollTo(0, originalScrollTop);
-
-      // 3단계: 고품질 PNG 생성
-      const dataURL = canvas.toDataURL('image/png', 1.0); // 최고 품질
-      
-      // 4단계: 다운로드
-      const link = document.createElement('a');
-      link.download = `아웃리치-성향-${result?.nickname || 'test'}-${Date.now()}.png`;
-      link.href = dataURL;
-      
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      
-      alert('고화질 PNG 이미지가 저장되었습니다! 📸');
-
-    } catch (error) {
-      console.error('PNG 저장 실패:', error);
-      alert(`이미지 저장에 실패했습니다.\n\n수동 스크린샷 방법:\n• Windows: Win + Shift + S\n• Mac: Cmd + Shift + 4\n\n팁: 브라우저 확대율을 100%로 맞추면 더 선명해집니다!`);
-    }
   };
 
   const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
@@ -748,7 +734,7 @@ const OutreachMBTIApp = () => {
           <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl"></div>
         </div>
         
-        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl" ref={resultRef} data-result="true">
+        <div ref={resultRef} className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
@@ -880,10 +866,12 @@ const OutreachMBTIApp = () => {
                 나의 아웃리치 성향
               </h3>
               <div className="space-y-2">
-                <div className="flex items-start space-x-3">
-                  <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
-                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{result.description}</p>
-                </div>
+                {(Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
+                  <div key={index} className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{desc}</p>
+                  </div>
+                ))}
               </div>
             </div>
 
@@ -934,17 +922,18 @@ const OutreachMBTIApp = () => {
           </div>
 
           {/* 버튼들 */}
-          <div className="flex flex-col sm:flex-row gap-3 mt-5 sm:mt-8">
+          <div className="mt-5 sm:mt-8 space-y-3">
             <button
               onClick={saveAsImage}
-              className="save-image-btn flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
+              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
             >
               <Download className="w-5 h-5 mr-3" />
-              PNG 이미지 저장
+              결과 이미지로 저장하기
             </button>
+
             <button
               onClick={resetTest}
-              className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
+              className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
             >
               <RotateCcw className="w-5 h-5 mr-3" />
               다시 테스트하기
