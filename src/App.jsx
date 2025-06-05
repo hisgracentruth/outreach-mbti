@@ -1,21 +1,4 @@
-<div className="text-sm font-bold text-orange-700 mt-0.5">{result?.percentages?.execution?.leader || 50}%</div>
-                    </div>
-                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
-                      <div className="flex w-full h-full">
-                        <div 
-                          className="bg-orange-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.execution?.leader || 50}%` }}
-                        ></div>
-                        <div 
-                          className="bg-teal-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.execution?.backup || 50}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="w-20 text-center">
-                      <span className="text-xs text-teal-500 font-medium">백업형(B)</span>
-                      <div className="text-sm font-bold text-teal-600 mt-0.5">{result?.percentages?.execution?.backup || 50}%</div>
-                    </div>import React, { useState } from 'react';
+import React, { useState } from 'react';
 import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles } from 'lucide-react';
 
 const OutreachMBTIApp = () => {
@@ -611,6 +594,7 @@ const OutreachMBTIApp = () => {
     }
   };
 
+
   const handleAnswer = (option) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: option };
     setAnswers(newAnswers);
@@ -622,71 +606,55 @@ const OutreachMBTIApp = () => {
     }
   };
 
-  const calculateResult = (finalAnswers) => {
+const calculateResult = (finalAnswers) => {
     const scores = { D: 0, C: 0, S: 0, F: 0, I: 0, X: 0, L: 0, B: 0 };
     
     Object.values(finalAnswers).forEach(answer => {
       scores[answer.value] += answer.score;
     });
 
-    // 개선된 퍼센트 계산 로직
-    const calculatePercentages = (score1, score2) => {
-      const total = score1 + score2;
-      const diff = Math.abs(score1 - score2);
+    // 각 축별 점수를 100% 기준으로 비율 계산
+    const calculateAxisPercentage = (score1, score2) => {
+      const maxScore = 9; // 최고점
       
-      // 차이가 클수록 더 극단적인 비율을 만들어줌
-      if (total === 0) return { first: 50, second: 50 };
+      // 각 점수를 최고점 기준으로 퍼센티지 계산
+      const percent1 = (score1 / maxScore) * 100;
+      const percent2 = (score2 / maxScore) * 100;
+      const total = percent1 + percent2;
       
-      // 기본 비율 계산
-      let firstPercent = Math.round((score1 / total) * 100);
-      let secondPercent = 100 - firstPercent;
-      
-      // 차이에 따른 가중치 적용 (차이가 클수록 더 극단적으로)
-      if (diff >= 4) { // 큰 차이 (예: 3-3-3 vs 2-2-2 등)
-        const stronger = score1 > score2 ? 'first' : 'second';
-        if (stronger === 'first') {
-          firstPercent = Math.min(85, firstPercent + Math.floor(diff * 2));
-          secondPercent = 100 - firstPercent;
-        } else {
-          secondPercent = Math.min(85, secondPercent + Math.floor(diff * 2));
-          firstPercent = 100 - secondPercent;
-        }
-      } else if (diff >= 2) { // 중간 차이
-        const stronger = score1 > score2 ? 'first' : 'second';
-        if (stronger === 'first') {
-          firstPercent = Math.min(75, firstPercent + Math.floor(diff * 1.5));
-          secondPercent = 100 - firstPercent;
-        } else {
-          secondPercent = Math.min(75, secondPercent + Math.floor(diff * 1.5));
-          firstPercent = 100 - secondPercent;
-        }
+      // 비율로 정규화하여 합이 100%가 되도록 조정
+      if (total === 0) {
+        return { first: 50, second: 50 };
       }
       
-      return { first: firstPercent, second: secondPercent };
+      return {
+        first: Math.round((percent1 / total) * 100),
+        second: Math.round((percent2 / total) * 100)
+      };
     };
 
     // 각 축별 비율 계산
-    const deliveryPerc = calculatePercentages(scores.D, scores.C);
-    const strategyPerc = calculatePercentages(scores.S, scores.F);
-    const focusPerc = calculatePercentages(scores.I, scores.X);
-    const executionPerc = calculatePercentages(scores.L, scores.B);
+    const deliveryRatio = calculateAxisPercentage(scores.D, scores.C);
+    const strategyRatio = calculateAxisPercentage(scores.S, scores.F);
+    const focusRatio = calculateAxisPercentage(scores.I, scores.X);
+    const executionRatio = calculateAxisPercentage(scores.L, scores.B);
 
     const percentages = {
       delivery: {
-        direct: deliveryPerc.first,
-        companion: deliveryPerc.second
+        direct: deliveryRatio.first,
+        companion: deliveryRatio.second
       },
       strategy: {
-        structured: strategyPerc.first,
-        flexible: strategyPerc.second
+        structured: strategyRatio.first,
+        flexible: strategyRatio.second
       },
       focus: {
-        individual: focusPerc.first,
-        structural: focusPerc.second
+        individual: focusRatio.first,
+        structural: focusRatio.second
       },
       execution: {
-        leader: executionPerc.first,
-        backup: executionPerc.second
+        leader: executionRatio.first,
+        backup: executionRatio.second
       }
     };
 
@@ -720,13 +688,13 @@ const OutreachMBTIApp = () => {
           <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl"></div>
         </div>
         
-        <div data-result="true" className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
+        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result?.emoji || '🎯'}</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result?.nickname || '테스트 결과'}</h1>
+            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result.nickname}</h1>
             <div className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full border border-indigo-200/50">
-              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result?.code || 'TEST'}</span>
+              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result.code}</span>
             </div>
           </div>
           
@@ -745,23 +713,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-blue-600 font-medium">선포형(D)</span>
-                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result?.percentages?.delivery?.direct || 50}%</div>
+                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result.percentages.delivery.direct}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-blue-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.delivery?.direct || 50}%` }}
+                          style={{ width: `${result.percentages.delivery.direct}%` }}
                         ></div>
                         <div 
                           className="bg-pink-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.delivery?.companion || 50}%` }}
+                          style={{ width: `${result.percentages.delivery.companion}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-pink-500 font-medium">동행형(C)</span>
-                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result?.percentages?.delivery?.companion || 50}%</div>
+                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result.percentages.delivery.companion}%</div>
                     </div>
                   </div>
                 </div>
@@ -771,23 +739,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-green-600 font-medium">계획형(S)</span>
-                      <div className="text-sm font-bold text-green-700 mt-0.5">{result?.percentages?.strategy?.structured || 50}%</div>
+                      <div className="text-sm font-bold text-green-700 mt-0.5">{result.percentages.strategy.structured}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-green-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.strategy?.structured || 50}%` }}
+                          style={{ width: `${result.percentages.strategy.structured}%` }}
                         ></div>
                         <div 
                           className="bg-yellow-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.strategy?.flexible || 50}%` }}
+                          style={{ width: `${result.percentages.strategy.flexible}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-yellow-500 font-medium">유동형(F)</span>
-                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result?.percentages?.strategy?.flexible || 50}%</div>
+                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result.percentages.strategy.flexible}%</div>
                     </div>
                   </div>
                 </div>
@@ -797,23 +765,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-purple-600 font-medium">개인형(I)</span>
-                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result?.percentages?.focus?.individual || 50}%</div>
+                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result.percentages.focus.individual}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-purple-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.focus?.individual || 50}%` }}
+                          style={{ width: `${result.percentages.focus.individual}%` }}
                         ></div>
                         <div 
                           className="bg-indigo-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.focus?.structural || 50}%` }}
+                          style={{ width: `${result.percentages.focus.structural}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-indigo-500 font-medium">구조형(X)</span>
-                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result?.percentages?.focus?.structural || 50}%</div>
+                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result.percentages.focus.structural}%</div>
                     </div>
                   </div>
                 </div>
@@ -852,7 +820,7 @@ const OutreachMBTIApp = () => {
                 나의 아웃리치 성향
               </h3>
               <div className="space-y-2">
-                {result?.description && (Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
+                {(Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{desc}</p>
@@ -867,12 +835,12 @@ const OutreachMBTIApp = () => {
                 강점 & 재능
               </h3>
               <div className="space-y-2">
-                {result?.strengths?.map((strength, index) => (
+                {result.strengths.map((strength, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{strength}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
 
@@ -882,12 +850,12 @@ const OutreachMBTIApp = () => {
                 성장 포인트
               </h3>
               <div className="space-y-2">
-                {result?.cautions?.map((caution, index) => (
+                {result.cautions.map((caution, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{caution}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
 
@@ -897,17 +865,16 @@ const OutreachMBTIApp = () => {
                 추천 사역
               </h3>
               <div className="space-y-2">
-                {result?.recommendedMinistry?.map((ministry, index) => (
+                {result.recommendedMinistry.map((ministry, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-violet-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{ministry}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
           </div>
 
-          {/* 버튼 */}
           <button
             onClick={resetTest}
             className="mt-5 sm:mt-8 w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
