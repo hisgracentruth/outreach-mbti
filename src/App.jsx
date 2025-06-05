@@ -695,20 +695,13 @@ const OutreachMBTIApp = () => {
 
   // Canvas에 직접 결과 내용 그리기
   const drawResultContent = async (ctx, width) => {
-    // 그림자 효과 초기화
-    ctx.shadowColor = 'transparent';
-    ctx.shadowBlur = 0;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 0;
-    
-    ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#1f2937';
     ctx.textAlign = 'center';
     
-    let y = 80; // 시작점을 더 아래로
+    let y = 80;
     
     // 이모지
     ctx.font = '56px system-ui';
+    ctx.fillStyle = '#1f2937';
     ctx.fillText(result.emoji, width/2, y);
     y += 80;
     
@@ -716,35 +709,29 @@ const OutreachMBTIApp = () => {
     ctx.font = 'bold 32px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#1f2937';
     ctx.fillText(result.nickname, width/2, y);
-    y += 50;
+    y += 60;
     
-    // 알파벳 코드 배경 박스
+    // 알파벳 코드 - 심플한 직사각형 배경
     const codeText = result.code;
-    ctx.font = 'bold 20px system-ui, -apple-system, sans-serif';
+    ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
     const textMetrics = ctx.measureText(codeText);
     const textWidth = textMetrics.width;
-    const boxWidth = textWidth + 32;
-    const boxHeight = 36;
+    const boxWidth = textWidth + 40;
+    const boxHeight = 40;
     const boxX = (width - boxWidth) / 2;
-    const boxY = y - 28;
+    const boxY = y - 32;
     
-    // 그라데이션 배경 박스
-    const gradient = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
-    gradient.addColorStop(0, '#c7d2fe');
-    gradient.addColorStop(1, '#ddd6fe');
-    ctx.fillStyle = gradient;
-    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 18);
-    ctx.fill();
+    // 배경 직사각형
+    ctx.fillStyle = '#4f46e5'; // 인디고 색상
+    ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
     
     // 테두리
-    ctx.strokeStyle = '#a5b4fc';
-    ctx.lineWidth = 2;
-    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 18);
-    ctx.stroke();
+    ctx.strokeStyle = '#3730a3'; // 더 진한 인디고
+    ctx.lineWidth = 3;
+    ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
     
     // 코드 텍스트
-    ctx.fillStyle = '#4338ca';
-    ctx.font = 'bold 20px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#ffffff'; // 흰색 텍스트
     ctx.fillText(codeText, width/2, y);
     y += 80;
     
