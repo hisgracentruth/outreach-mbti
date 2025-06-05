@@ -632,6 +632,13 @@ const OutreachMBTIApp = () => {
 
   // html2canvas를 사용한 캡처
   const captureWithHtml2Canvas = async () => {
+    // 캡처 전 스크롤 위치 저장 및 맨 위로 이동
+    const originalScrollY = window.scrollY;
+    window.scrollTo(0, 0);
+    
+    // 잠시 대기하여 스크롤 완료
+    await new Promise(resolve => setTimeout(resolve, 100));
+    
     const canvas = await window.html2canvas(resultRef.current, {
       backgroundColor: '#f8fafc',
       scale: 2,
@@ -640,9 +647,16 @@ const OutreachMBTIApp = () => {
       logging: false,
       scrollX: 0,
       scrollY: 0,
+      x: 0,
+      y: 0,
       width: resultRef.current.scrollWidth,
-      height: resultRef.current.scrollHeight
+      height: resultRef.current.scrollHeight,
+      windowWidth: window.innerWidth,
+      windowHeight: window.innerHeight
     });
+    
+    // 원래 스크롤 위치로 복원
+    window.scrollTo(0, originalScrollY);
     
     downloadImage(canvas.toDataURL('image/png'));
   };
@@ -681,88 +695,147 @@ const OutreachMBTIApp = () => {
 
   // Canvas에 직접 결과 내용 그리기
   const drawResultContent = async (ctx, width) => {
+    // 그림자 효과 초기화
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 0;
+    
     ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#1f2937';
     ctx.textAlign = 'center';
     
-    let y = 60;
+    let y = 80; // 시작점을 더 아래로
     
-    // 이모지와 제목
-    ctx.font = '48px system-ui';
+    // 이모지
+    ctx.font = '56px system-ui';
     ctx.fillText(result.emoji, width/2, y);
     y += 80;
     
-    ctx.font = 'bold 28px system-ui, -apple-system, sans-serif';
+    // 닉네임
+    ctx.font = 'bold 32px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#1f2937';
     ctx.fillText(result.nickname, width/2, y);
-    y += 40;
+    y += 50;
     
     // 알파벳 코드 배경 박스
     const codeText = result.code;
-    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
-    const textWidth = ctx.measureText(codeText).width;
-    const boxWidth = textWidth + 24;
-    const boxHeight = 32;
+    ctx.font = 'bold 20px system-ui, -apple-system, sans-serif';
+    const textMetrics = ctx.measureText(codeText);
+    const textWidth = textMetrics.width;
+    const boxWidth = textWidth + 32;
+    const boxHeight = 36;
     const boxX = (width - boxWidth) / 2;
-    const boxY = y - 24;
+    const boxY = y - 28;
     
-    // 그라데이션 배경
+    // 그라데이션 배경 박스
     const gradient = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
     gradient.addColorStop(0, '#c7d2fe');
     gradient.addColorStop(1, '#ddd6fe');
     ctx.fillStyle = gradient;
-    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 16);
+    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 18);
     ctx.fill();
     
     // 테두리
     ctx.strokeStyle = '#a5b4fc';
-    ctx.lineWidth = 1;
+    ctx.lineWidth = 2;
+    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 18);
     ctx.stroke();
     
     // 코드 텍스트
     ctx.fillStyle = '#4338ca';
+    ctx.font = 'bold 20px system-ui, -apple-system, sans-serif';
     ctx.fillText(codeText, width/2, y);
-    y += 60;
+    y += 80;
     
-    // 성향 분석
-    ctx.font = 'bold 16px system-ui, -apple-system, sans-serif';
+    // 성향 분석 제목
+    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#374151';
     ctx.textAlign = 'left';
-    ctx.fillText('🎯 나의 성향 분석', 40, y);
-    y += 40;
+    ctx.fillText('🎯 나의 성향 분석', 60, y);
+    y += 50;
     
     // 각 축별 비율 표시
     const axes = [
-      { name: '전달방식', d: result.percentages.delivery.direct, c: result.percentages.delivery.companion, dName: '선포형', cName: '동행형' },
-      { name: '사역전략', d: result.percentages.strategy.structured, c: result.percentages.strategy.flexible, dName: '계획형', cName: '유동형' },
-      { name: '사역초점', d: result.percentages.focus.individual, c: result.percentages.focus.structural, dName: '개인형', cName: '구조형' },
-      { name: '실행방식', d: result.percentages.execution.leader, c: result.percentages.execution.backup, dName: '리더형', cName: '백업형' }
+      { name: '전달방식', d: result.percentages.delivery.direct, c: result.percentages.delivery.companion, dName: '선포형(D)', cName: '동행형(C)', dColor: '#3b82f6', cColor: '#ec4899' },
+      { name: '사역전략', d: result.percentages.strategy.structured, c: result.percentages.strategy.flexible, dName: '계획형(S)', cName: '유동형(F)', dColor: '#10b981', cColor: '#f59e0b' },
+      { name: '사역초점', d: result.percentages.focus.individual, c: result.percentages.focus.structural, dName: '개인형(I)', cName: '구조형(X)', dColor: '#8b5cf6', cColor: '#6366f1' },
+      { name: '실행방식', d: result.percentages.execution.leader, c: result.percentages.execution.backup, dName: '리더형(L)', cName: '백업형(B)', dColor: '#f97316', cColor: '#14b8a6' }
     ];
     
     axes.forEach(axis => {
+      // 진행바 배경
+      const barWidth = width - 160;
+      const barHeight = 12;
+      const barX = 80;
+      const barY = y - 6;
+      
+      // 배경
+      ctx.fillStyle = '#f3f4f6';
+      ctx.roundRect(barX, barY, barWidth, barHeight, 6);
+      ctx.fill();
+      
+      // 첫 번째 값 (D 계열)
+      const firstWidth = (barWidth * axis.d) / 100;
+      ctx.fillStyle = axis.dColor;
+      ctx.roundRect(barX, barY, firstWidth, barHeight, 6);
+      ctx.fill();
+      
+      // 두 번째 값 (C 계열)
+      const secondWidth = (barWidth * axis.c) / 100;
+      ctx.fillStyle = axis.cColor;
+      ctx.roundRect(barX + firstWidth, barY, secondWidth, barHeight, 6);
+      ctx.fill();
+      
+      // 텍스트 라벨
       ctx.font = '14px system-ui, -apple-system, sans-serif';
-      ctx.fillStyle = '#6b7280';
-      ctx.fillText(`${axis.dName} ${axis.d}% | ${axis.c}% ${axis.cName}`, 60, y);
-      y += 25;
+      ctx.fillStyle = '#374151';
+      ctx.textAlign = 'left';
+      ctx.fillText(`${axis.dName} ${axis.d}%`, 60, y - 15);
+      
+      ctx.textAlign = 'right';
+      ctx.fillText(`${axis.c}% ${axis.cName}`, width - 60, y - 15);
+      
+      y += 45;
+    });
+    
+    y += 30;
+    
+    // 강점 섹션
+    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#059669';
+    ctx.textAlign = 'left';
+    ctx.fillText('✨ 주요 강점', 60, y);
+    y += 40;
+    
+    ctx.font = '14px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#374151';
+    result.strengths.slice(0, 3).forEach(strength => {
+      const lines = wrapText(ctx, `• ${strength}`, width - 120);
+      lines.forEach(line => {
+        ctx.fillText(line, 80, y);
+        y += 22;
+      });
+      y += 8;
     });
     
     y += 20;
     
-    // 강점
-    ctx.font = 'bold 16px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#059669';
-    ctx.fillText('✨ 주요 강점', 40, y);
-    y += 30;
+    // 추천 사역 섹션
+    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#7c3aed';
+    ctx.fillText('👥 추천 사역', 60, y);
+    y += 40;
     
-    ctx.font = '12px system-ui, -apple-system, sans-serif';
+    ctx.font = '14px system-ui, -apple-system, sans-serif';
     ctx.fillStyle = '#374151';
-    result.strengths.slice(0, 2).forEach(strength => {
-      const lines = wrapText(ctx, `• ${strength}`, width - 80);
+    result.recommendedMinistry.slice(0, 2).forEach(ministry => {
+      const lines = wrapText(ctx, `• ${ministry}`, width - 120);
       lines.forEach(line => {
-        ctx.fillText(line, 60, y);
-        y += 20;
+        ctx.fillText(line, 80, y);
+        y += 22;
       });
-      y += 5;
+      y += 8;
     });
   };
 
@@ -792,7 +865,7 @@ const OutreachMBTIApp = () => {
     const ctx = canvas.getContext('2d');
     
     canvas.width = 800;
-    canvas.height = 1400; // 높이 증가
+    canvas.height = 1600; // 높이 더 증가
     
     // 배경 그라데이션
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -803,15 +876,15 @@ const OutreachMBTIApp = () => {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     
     // 카드 배경
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
-    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 20);
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
+    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 24);
     ctx.fill();
     
-    // 카드 그림자 효과
-    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
-    ctx.shadowBlur = 20;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 10;
+    // 카드 테두리
+    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 24);
+    ctx.stroke();
     
     await drawResultContent(ctx, canvas.width - 80);
     
