@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles } from 'lucide-react';
+import React, { useState, useRef } from 'react';
+import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles, Download } from 'lucide-react';
 
 const OutreachMBTIApp = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -7,7 +7,7 @@ const OutreachMBTIApp = () => {
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
-
+  const resultRef = useRef(null);
 
    const questions = [
     {
@@ -595,7 +595,6 @@ const OutreachMBTIApp = () => {
     }
   };
 
-
   const handleAnswer = (option) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: option };
     setAnswers(newAnswers);
@@ -614,23 +613,27 @@ const OutreachMBTIApp = () => {
       scores[answer.value] += answer.score;
     });
 
-    // 각 축별 비율 계산 (두 성향의 합이 100%가 되도록)
+    // 각 축별로 점수 합계를 기반으로 비율 계산
     const percentages = {
       delivery: {
-        direct: Math.round((scores.D / (scores.D + scores.C)) * 100),
-        companion: Math.round((scores.C / (scores.D + scores.C)) * 100)
+        total: scores.D + scores.C,
+        direct: scores.D > 0 ? Math.round((scores.D / (scores.D + scores.C)) * 100) : 0,
+        companion: scores.C > 0 ? Math.round((scores.C / (scores.D + scores.C)) * 100) : 0
       },
       strategy: {
-        structured: Math.round((scores.S / (scores.S + scores.F)) * 100),
-        flexible: Math.round((scores.F / (scores.S + scores.F)) * 100)
+        total: scores.S + scores.F,
+        structured: scores.S > 0 ? Math.round((scores.S / (scores.S + scores.F)) * 100) : 0,
+        flexible: scores.F > 0 ? Math.round((scores.F / (scores.S + scores.F)) * 100) : 0
       },
       focus: {
-        individual: Math.round((scores.I / (scores.I + scores.X)) * 100),
-        structural: Math.round((scores.X / (scores.I + scores.X)) * 100)
+        total: scores.I + scores.X,
+        individual: scores.I > 0 ? Math.round((scores.I / (scores.I + scores.X)) * 100) : 0,
+        structural: scores.X > 0 ? Math.round((scores.X / (scores.I + scores.X)) * 100) : 0
       },
       execution: {
-        leader: Math.round((scores.L / (scores.L + scores.B)) * 100),
-        backup: Math.round((scores.B / (scores.L + scores.B)) * 100)
+        total: scores.L + scores.B,
+        leader: scores.L > 0 ? Math.round((scores.L / (scores.L + scores.B)) * 100) : 0,
+        backup: scores.B > 0 ? Math.round((scores.B / (scores.L + scores.B)) * 100) : 0
       }
     };
 
@@ -640,7 +643,9 @@ const OutreachMBTIApp = () => {
       (scores.I >= scores.X ? 'I' : 'X') +
       (scores.L >= scores.B ? 'L' : 'B');
 
-    setResult({...results[resultType], percentages, code: resultType});
+    // 결과가 없으면 기본값 사용
+    const resultData = results[resultType] || results['DSIL'];
+    setResult({...resultData, percentages, code: resultType, scores});
     setShowResult(true);
   };
 
@@ -650,6 +655,64 @@ const OutreachMBTIApp = () => {
     setResult(null);
     setShowResult(false);
     setShowIntro(true);
+  };
+
+  const saveAsImage = async () => {
+    try {
+      // 1단계: html2canvas 로드 (더 간단한 CDN 사용)
+      if (!window.html2canvas) {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js';
+        document.head.appendChild(script);
+        
+        // 로드 완료까지 대기
+        await new Promise((resolve, reject) => {
+          script.onload = () => {
+            console.log('html2canvas 로드 완료');
+            resolve();
+          };
+          script.onerror = () => reject(new Error('라이브러리 로드 실패'));
+          setTimeout(() => reject(new Error('로드 시간 초과')), 15000);
+        });
+      }
+
+      if (!resultRef.current) {
+        throw new Error('결과 화면을 찾을 수 없습니다');
+      }
+
+      console.log('캡처 시작...');
+      
+      // 2단계: 화면 캡처 (최대한 간단한 옵션)
+      const canvas = await window.html2canvas(resultRef.current, {
+        backgroundColor: '#ffffff',
+        scale: 1,
+        logging: true,
+        useCORS: true
+      });
+
+      console.log('캡처 완료, 다운로드 시작...');
+
+      // 3단계: PNG로 변환 및 다운로드
+      const dataURL = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `아웃리치-성향-결과-${Date.now()}.png`;
+      link.href = dataURL;
+      
+      // 강제 클릭으로 다운로드
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      
+      alert('PNG 이미지가 다운로드되었습니다! 다운로드 폴더를 확인해주세요.');
+
+    } catch (error) {
+      console.error('PNG 저장 실패:', error);
+      
+      // 대안: 수동 방법 안내
+      const altMethod = `PNG 저장에 실패했습니다. 😞\n\n수동으로 저장하는 방법:\n\n1️⃣ 스크린샷 찍기:\n   • Windows: Win + Shift + S\n   • Mac: Cmd + Shift + 4\n   • 결과 화면 영역을 드래그해서 선택\n\n2️⃣ 또는 개발자 도구 사용:\n   • F12 키 누르기\n   • Console 탭에서 다음 입력:\n   html2canvas(document.querySelector('[data-result]')).then(canvas => {\n     const link = document.createElement('a');\n     link.download = 'result.png';\n     link.href = canvas.toDataURL();\n     link.click();\n   });`;
+      
+      alert(altMethod);
+    }
   };
 
   const progressPercentage = ((currentQuestion + 1) / questions.length) * 100;
@@ -664,7 +727,7 @@ const OutreachMBTIApp = () => {
           <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl"></div>
         </div>
         
-        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
+        <div className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl" ref={resultRef} data-result="true">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
             <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
@@ -796,12 +859,10 @@ const OutreachMBTIApp = () => {
                 나의 아웃리치 성향
               </h3>
               <div className="space-y-2">
-                {(Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
-                  <div key={index} className="flex items-start space-x-3">
-                    <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
-                    <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{desc}</p>
-                  </div>
-                ))}
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{result.description}</p>
+                </div>
               </div>
             </div>
 
@@ -851,13 +912,23 @@ const OutreachMBTIApp = () => {
             </div>
           </div>
 
-          <button
-            onClick={resetTest}
-            className="mt-5 sm:mt-8 w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
-          >
-            <RotateCcw className="w-5 h-5 mr-3" />
-            다시 테스트하기
-          </button>
+          {/* 버튼들 */}
+          <div className="flex flex-col sm:flex-row gap-3 mt-5 sm:mt-8">
+            <button
+              onClick={saveAsImage}
+              className="save-image-btn flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
+            >
+              <Download className="w-5 h-5 mr-3" />
+              PNG 이미지 저장
+            </button>
+            <button
+              onClick={resetTest}
+              className="flex-1 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
+            >
+              <RotateCcw className="w-5 h-5 mr-3" />
+              다시 테스트하기
+            </button>
+          </div>
         </div>
       </div>
     );
