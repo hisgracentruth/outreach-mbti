@@ -1,5 +1,22 @@
-import React, { useState, useRef } from 'react';
-import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles, Download } from 'lucide-react';
+<div className="text-sm font-bold text-orange-700 mt-0.5">{result?.percentages?.execution?.leader || 50}%</div>
+                    </div>
+                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
+                      <div className="flex w-full h-full">
+                        <div 
+                          className="bg-orange-500 h-2 transition-all duration-1000"
+                          style={{ width: `${result?.percentages?.execution?.leader || 50}%` }}
+                        ></div>
+                        <div 
+                          className="bg-teal-400 h-2 transition-all duration-1000"
+                          style={{ width: `${result?.percentages?.execution?.backup || 50}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    <div className="w-20 text-center">
+                      <span className="text-xs text-teal-500 font-medium">백업형(B)</span>
+                      <div className="text-sm font-bold text-teal-600 mt-0.5">{result?.percentages?.execution?.backup || 50}%</div>
+                    </div>import React, { useState } from 'react';
+import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles } from 'lucide-react';
 
 const OutreachMBTIApp = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
@@ -7,7 +24,6 @@ const OutreachMBTIApp = () => {
   const [result, setResult] = useState(null);
   const [showResult, setShowResult] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
-  const resultRef = useRef(null);
 
    const questions = [
     {
@@ -595,316 +611,6 @@ const OutreachMBTIApp = () => {
     }
   };
 
-// 이미지 저장 함수
-  const saveAsImage = async () => {
-    if (!resultRef.current) return;
-    
-    try {
-      // 먼저 html2canvas 로드 시도
-      await loadHtml2Canvas();
-      await captureWithHtml2Canvas();
-    } catch (error) {
-      console.log('html2canvas 방식 실패, SVG 방식으로 시도:', error);
-      try {
-        await captureWithSVG();
-      } catch (svgError) {
-        console.log('SVG 방식도 실패, Canvas 방식으로 시도:', svgError);
-        await captureWithCanvas();
-      }
-    }
-  };
-
-  // html2canvas 라이브러리 로드
-  const loadHtml2Canvas = () => {
-    return new Promise((resolve, reject) => {
-      if (typeof window.html2canvas !== 'undefined') {
-        resolve();
-        return;
-      }
-
-      const script = document.createElement('script');
-      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-      script.onload = resolve;
-      script.onerror = reject;
-      document.head.appendChild(script);
-    });
-  };
-
-  // html2canvas를 사용한 캡처
-  const captureWithHtml2Canvas = async () => {
-    // 캡처 전 스크롤 위치 저장 및 맨 위로 이동
-    const originalScrollY = window.scrollY;
-    window.scrollTo(0, 0);
-    
-    // 잠시 대기하여 스크롤 완료
-    await new Promise(resolve => setTimeout(resolve, 100));
-    
-    const canvas = await window.html2canvas(resultRef.current, {
-      backgroundColor: '#f8fafc',
-      scale: 2,
-      useCORS: true,
-      allowTaint: true,
-      logging: false,
-      scrollX: 0,
-      scrollY: 0,
-      x: 0,
-      y: 0,
-      width: resultRef.current.scrollWidth,
-      height: resultRef.current.scrollHeight,
-      windowWidth: window.innerWidth,
-      windowHeight: window.innerHeight
-    });
-    
-    // 원래 스크롤 위치로 복원
-    window.scrollTo(0, originalScrollY);
-    
-    downloadImage(canvas.toDataURL('image/png'));
-  };
-
-  // SVG 방식으로 캡처 (모바일 최적화)
-  const captureWithSVG = async () => {
-    const element = resultRef.current;
-    const rect = element.getBoundingClientRect();
-    
-    // 임시로 스타일 조정
-    const originalStyle = element.style.cssText;
-    element.style.position = 'relative';
-    element.style.zIndex = '9999';
-    element.style.backgroundColor = '#f8fafc';
-    
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    const scale = 2; // 고해상도
-    
-    canvas.width = rect.width * scale;
-    canvas.height = rect.height * scale;
-    ctx.scale(scale, scale);
-    
-    // 배경색 설정
-    ctx.fillStyle = '#f8fafc';
-    ctx.fillRect(0, 0, rect.width, rect.height);
-    
-    // 텍스트와 기본 도형으로 결과 그리기
-    await drawResultContent(ctx, rect.width);
-    
-    // 원래 스타일 복원
-    element.style.cssText = originalStyle;
-    
-    downloadImage(canvas.toDataURL('image/png'));
-  };
-
-  // Canvas에 직접 결과 내용 그리기
-  const drawResultContent = async (ctx, width) => {
-    ctx.textAlign = 'center';
-    
-    let y = 80;
-    
-    // 이모지
-    ctx.font = '56px system-ui';
-    ctx.fillStyle = '#1f2937';
-    ctx.fillText(result.emoji, width/2, y);
-    y += 80;
-    
-    // 닉네임
-    ctx.font = 'bold 32px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#1f2937';
-    ctx.fillText(result.nickname, width/2, y);
-    y += 60;
-    
-    // 알파벳 코드 - 심플한 직사각형 배경
-    const codeText = result.code;
-    ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
-    const textMetrics = ctx.measureText(codeText);
-    const textWidth = textMetrics.width;
-    const boxWidth = textWidth + 40;
-    const boxHeight = 40;
-    const boxX = (width - boxWidth) / 2;
-    const boxY = y - 32;
-    
-    // 배경 직사각형
-    ctx.fillStyle = '#4f46e5'; // 인디고 색상
-    ctx.fillRect(boxX, boxY, boxWidth, boxHeight);
-    
-    // 테두리
-    ctx.strokeStyle = '#3730a3'; // 더 진한 인디고
-    ctx.lineWidth = 3;
-    ctx.strokeRect(boxX, boxY, boxWidth, boxHeight);
-    
-    // 코드 텍스트
-    ctx.fillStyle = '#ffffff'; // 흰색 텍스트
-    ctx.fillText(codeText, width/2, y);
-    y += 80;
-    
-    // 성향 분석 제목
-    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#374151';
-    ctx.textAlign = 'left';
-    ctx.fillText('🎯 나의 성향 분석', 60, y);
-    y += 50;
-    
-    // 각 축별 비율 표시
-    const axes = [
-      { name: '전달방식', d: result.percentages.delivery.direct, c: result.percentages.delivery.companion, dName: '선포형(D)', cName: '동행형(C)', dColor: '#3b82f6', cColor: '#ec4899' },
-      { name: '사역전략', d: result.percentages.strategy.structured, c: result.percentages.strategy.flexible, dName: '계획형(S)', cName: '유동형(F)', dColor: '#10b981', cColor: '#f59e0b' },
-      { name: '사역초점', d: result.percentages.focus.individual, c: result.percentages.focus.structural, dName: '개인형(I)', cName: '구조형(X)', dColor: '#8b5cf6', cColor: '#6366f1' },
-      { name: '실행방식', d: result.percentages.execution.leader, c: result.percentages.execution.backup, dName: '리더형(L)', cName: '백업형(B)', dColor: '#f97316', cColor: '#14b8a6' }
-    ];
-    
-    axes.forEach(axis => {
-      // 진행바 배경
-      const barWidth = width - 160;
-      const barHeight = 12;
-      const barX = 80;
-      const barY = y - 6;
-      
-      // 배경
-      ctx.fillStyle = '#f3f4f6';
-      ctx.roundRect(barX, barY, barWidth, barHeight, 6);
-      ctx.fill();
-      
-      // 첫 번째 값 (D 계열)
-      const firstWidth = (barWidth * axis.d) / 100;
-      ctx.fillStyle = axis.dColor;
-      ctx.roundRect(barX, barY, firstWidth, barHeight, 6);
-      ctx.fill();
-      
-      // 두 번째 값 (C 계열)
-      const secondWidth = (barWidth * axis.c) / 100;
-      ctx.fillStyle = axis.cColor;
-      ctx.roundRect(barX + firstWidth, barY, secondWidth, barHeight, 6);
-      ctx.fill();
-      
-      // 텍스트 라벨
-      ctx.font = '14px system-ui, -apple-system, sans-serif';
-      ctx.fillStyle = '#374151';
-      ctx.textAlign = 'left';
-      ctx.fillText(`${axis.dName} ${axis.d}%`, 60, y - 15);
-      
-      ctx.textAlign = 'right';
-      ctx.fillText(`${axis.c}% ${axis.cName}`, width - 60, y - 15);
-      
-      y += 45;
-    });
-    
-    y += 30;
-    
-    // 강점 섹션
-    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#059669';
-    ctx.textAlign = 'left';
-    ctx.fillText('✨ 주요 강점', 60, y);
-    y += 40;
-    
-    ctx.font = '14px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#374151';
-    result.strengths.slice(0, 3).forEach(strength => {
-      const lines = wrapText(ctx, `• ${strength}`, width - 120);
-      lines.forEach(line => {
-        ctx.fillText(line, 80, y);
-        y += 22;
-      });
-      y += 8;
-    });
-    
-    y += 20;
-    
-    // 추천 사역 섹션
-    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#7c3aed';
-    ctx.fillText('👥 추천 사역', 60, y);
-    y += 40;
-    
-    ctx.font = '14px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#374151';
-    result.recommendedMinistry.slice(0, 2).forEach(ministry => {
-      const lines = wrapText(ctx, `• ${ministry}`, width - 120);
-      lines.forEach(line => {
-        ctx.fillText(line, 80, y);
-        y += 22;
-      });
-      y += 8;
-    });
-  };
-
-  // 텍스트 줄바꿈 헬퍼 함수
-  const wrapText = (ctx, text, maxWidth) => {
-    const words = text.split(' ');
-    const lines = [];
-    let currentLine = words[0];
-    
-    for (let i = 1; i < words.length; i++) {
-      const word = words[i];
-      const width = ctx.measureText(currentLine + ' ' + word).width;
-      if (width < maxWidth) {
-        currentLine += ' ' + word;
-      } else {
-        lines.push(currentLine);
-        currentLine = word;
-      }
-    }
-    lines.push(currentLine);
-    return lines;
-  };
-
-  // Canvas 직접 그리기 방식 (최종 대안)
-  const captureWithCanvas = async () => {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
-    
-    canvas.width = 800;
-    canvas.height = 1600; // 높이 더 증가
-    
-    // 배경 그라데이션
-    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
-    gradient.addColorStop(0, '#dbeafe');
-    gradient.addColorStop(0.5, '#fdf4ff');
-    gradient.addColorStop(1, '#fce7f3');
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
-    // 카드 배경
-    ctx.fillStyle = 'rgba(255, 255, 255, 0.95)';
-    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 24);
-    ctx.fill();
-    
-    // 카드 테두리
-    ctx.strokeStyle = 'rgba(255, 255, 255, 0.6)';
-    ctx.lineWidth = 2;
-    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 24);
-    ctx.stroke();
-    
-    await drawResultContent(ctx, canvas.width - 80);
-    
-    downloadImage(canvas.toDataURL('image/png'));
-  };
-
-  // 이미지 다운로드 실행
-  const downloadImage = (dataURL) => {
-    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    if (isMobile) {
-      // 모바일에서는 새 창으로 이미지 표시
-      const newWindow = window.open();
-      newWindow.document.write(`
-        <html>
-          <head><title>테스트 결과</title></head>
-          <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f3f4f6;">
-            <div style="text-align:center;">
-              <img src="${dataURL}" style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
-              <p style="margin-top:20px; color:#6b7280; font-family:system-ui;">이미지를 길게 눌러서 저장하세요</p>
-            </div>
-          </body>
-        </html>
-      `);
-    } else {
-      // 데스크톱에서는 직접 다운로드
-      const link = document.createElement('a');
-      link.download = `아웃리치_성향테스트_결과_${result.nickname.replace(/[^a-zA-Z0-9가-힣]/g, '_')}.png`;
-      link.href = dataURL;
-      link.click();
-    }
-  };
-
   const handleAnswer = (option) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: option };
     setAnswers(newAnswers);
@@ -1014,13 +720,13 @@ const OutreachMBTIApp = () => {
           <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-blue-300 rounded-full blur-2xl"></div>
         </div>
         
-        <div ref={resultRef} className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
+        <div data-result="true" className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result.nickname}</h1>
+            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result?.emoji || '🎯'}</div>
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result?.nickname || '테스트 결과'}</h1>
             <div className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full border border-indigo-200/50">
-              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result.code}</span>
+              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result?.code || 'TEST'}</span>
             </div>
           </div>
           
@@ -1039,23 +745,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-blue-600 font-medium">선포형(D)</span>
-                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result.percentages.delivery.direct}%</div>
+                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result?.percentages?.delivery?.direct || 50}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-blue-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.delivery.direct}%` }}
+                          style={{ width: `${result?.percentages?.delivery?.direct || 50}%` }}
                         ></div>
                         <div 
                           className="bg-pink-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.delivery.companion}%` }}
+                          style={{ width: `${result?.percentages?.delivery?.companion || 50}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-pink-500 font-medium">동행형(C)</span>
-                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result.percentages.delivery.companion}%</div>
+                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result?.percentages?.delivery?.companion || 50}%</div>
                     </div>
                   </div>
                 </div>
@@ -1065,23 +771,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-green-600 font-medium">계획형(S)</span>
-                      <div className="text-sm font-bold text-green-700 mt-0.5">{result.percentages.strategy.structured}%</div>
+                      <div className="text-sm font-bold text-green-700 mt-0.5">{result?.percentages?.strategy?.structured || 50}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-green-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.strategy.structured}%` }}
+                          style={{ width: `${result?.percentages?.strategy?.structured || 50}%` }}
                         ></div>
                         <div 
                           className="bg-yellow-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.strategy.flexible}%` }}
+                          style={{ width: `${result?.percentages?.strategy?.flexible || 50}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-yellow-500 font-medium">유동형(F)</span>
-                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result.percentages.strategy.flexible}%</div>
+                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result?.percentages?.strategy?.flexible || 50}%</div>
                     </div>
                   </div>
                 </div>
@@ -1091,23 +797,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-purple-600 font-medium">개인형(I)</span>
-                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result.percentages.focus.individual}%</div>
+                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result?.percentages?.focus?.individual || 50}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-purple-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.focus.individual}%` }}
+                          style={{ width: `${result?.percentages?.focus?.individual || 50}%` }}
                         ></div>
                         <div 
                           className="bg-indigo-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result.percentages.focus.structural}%` }}
+                          style={{ width: `${result?.percentages?.focus?.structural || 50}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-indigo-500 font-medium">구조형(X)</span>
-                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result.percentages.focus.structural}%</div>
+                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result?.percentages?.focus?.structural || 50}%</div>
                     </div>
                   </div>
                 </div>
@@ -1146,7 +852,7 @@ const OutreachMBTIApp = () => {
                 나의 아웃리치 성향
               </h3>
               <div className="space-y-2">
-                {(Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
+                {result?.description && (Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{desc}</p>
@@ -1161,12 +867,12 @@ const OutreachMBTIApp = () => {
                 강점 & 재능
               </h3>
               <div className="space-y-2">
-                {result.strengths.map((strength, index) => (
+                {result?.strengths?.map((strength, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{strength}</p>
                   </div>
-                ))}
+                )) || []}
               </div>
             </div>
 
@@ -1176,12 +882,12 @@ const OutreachMBTIApp = () => {
                 성장 포인트
               </h3>
               <div className="space-y-2">
-                {result.cautions.map((caution, index) => (
+                {result?.cautions?.map((caution, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{caution}</p>
                   </div>
-                ))}
+                )) || []}
               </div>
             </div>
 
@@ -1191,34 +897,24 @@ const OutreachMBTIApp = () => {
                 추천 사역
               </h3>
               <div className="space-y-2">
-                {result.recommendedMinistry.map((ministry, index) => (
+                {result?.recommendedMinistry?.map((ministry, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-violet-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{ministry}</p>
                   </div>
-                ))}
+                )) || []}
               </div>
             </div>
           </div>
 
-          {/* 버튼들 */}
-          <div className="mt-5 sm:mt-8 space-y-3">
-            <button
-              onClick={saveAsImage}
-              className="w-full bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
-            >
-              <Download className="w-5 h-5 mr-3" />
-              결과 이미지로 저장하기
-            </button>
-
-            <button
-              onClick={resetTest}
-              className="w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
-            >
-              <RotateCcw className="w-5 h-5 mr-3" />
-              다시 테스트하기
-            </button>
-          </div>
+          {/* 버튼 */}
+          <button
+            onClick={resetTest}
+            className="mt-5 sm:mt-8 w-full bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold hover:shadow-xl hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base border border-white/30"
+          >
+            <RotateCcw className="w-5 h-5 mr-3" />
+            다시 테스트하기
+          </button>
         </div>
       </div>
     );
