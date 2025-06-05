@@ -693,12 +693,35 @@ const OutreachMBTIApp = () => {
     y += 80;
     
     ctx.font = 'bold 28px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#1f2937';
     ctx.fillText(result.nickname, width/2, y);
-    y += 50;
+    y += 40;
     
+    // 알파벳 코드 배경 박스
+    const codeText = result.code;
     ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
-    ctx.fillStyle = '#6366f1';
-    ctx.fillText(result.code, width/2, y);
+    const textWidth = ctx.measureText(codeText).width;
+    const boxWidth = textWidth + 24;
+    const boxHeight = 32;
+    const boxX = (width - boxWidth) / 2;
+    const boxY = y - 24;
+    
+    // 그라데이션 배경
+    const gradient = ctx.createLinearGradient(boxX, boxY, boxX + boxWidth, boxY + boxHeight);
+    gradient.addColorStop(0, '#c7d2fe');
+    gradient.addColorStop(1, '#ddd6fe');
+    ctx.fillStyle = gradient;
+    ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 16);
+    ctx.fill();
+    
+    // 테두리
+    ctx.strokeStyle = '#a5b4fc';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    
+    // 코드 텍스트
+    ctx.fillStyle = '#4338ca';
+    ctx.fillText(codeText, width/2, y);
     y += 60;
     
     // 성향 분석
@@ -769,7 +792,7 @@ const OutreachMBTIApp = () => {
     const ctx = canvas.getContext('2d');
     
     canvas.width = 800;
-    canvas.height = 1200;
+    canvas.height = 1400; // 높이 증가
     
     // 배경 그라데이션
     const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
@@ -783,6 +806,12 @@ const OutreachMBTIApp = () => {
     ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
     ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 20);
     ctx.fill();
+    
+    // 카드 그림자 효과
+    ctx.shadowColor = 'rgba(0, 0, 0, 0.1)';
+    ctx.shadowBlur = 20;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10;
     
     await drawResultContent(ctx, canvas.width - 80);
     
