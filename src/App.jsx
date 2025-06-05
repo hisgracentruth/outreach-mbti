@@ -17,7 +17,7 @@ const questions = [
       { text: '“나 이런 은혜가 있었어!” 하며 적극적으로 얘기해', value: 'D', score: 3 },
       { text: '분위기가 맞으면 자연스럽게 내 이야기를 꺼내', value: 'D', score: 2 },
       { text: '남들의 이야기를 듣고 리액션을 주는 편이야', value: 'C', score: 2 },
-      { text: '조용히 들으며 마음으로 공감해', value: 'C', score: 3 }
+      { text: '차분하게 끝까지 들으며 공감에 집중해', value: 'C', score: 3 }
     ]
   },
   {
@@ -36,10 +36,10 @@ const questions = [
     text: '친구가 잘못된 정보를 얘기하면 너는 어떻게 반응해?',
     axis: '전달',
     options: [
-      { text: '그 자리에서 바로 정정하고 넘어가', value: 'D', score: 3 },
-      { text: '모임 후에 개인적으로 친구에게 이야기해줘', value: 'D', score: 2 },
-      { text: '친구가 불편할까봐 일단 분위기를 맞춰줘', value: 'C', score: 2 },
-      { text: '그 자리에서는 넘어가고 나중에 상황을 살펴봐', value: 'C', score: 3 }
+      { text: '친구의 기분을 배려해서 조용히 넘어가', value: 'C', score: 3 }
+      { text: '당장은 상황을 지켜보며 기다려', value: 'C', score: 2 },
+      { text: '나중에 따로 얘기해줘', value: 'D', score: 2 },
+      { text: '즉시 정확하게 바로잡아줘', value: 'D', score: 3 },
     ]
   },
   {
@@ -47,10 +47,10 @@ const questions = [
     text: '팀 회의를 진행할 때 너의 스타일은?',
     axis: '전략',
     options: [
-      { text: '회의록을 정리하고 다음 단계를 확실히 해둬', value: 'S', score: 3 },
-      { text: '회의 후에 바로 할 일을 정리해놔', value: 'S', score: 2 },
-      { text: '자연스럽게 이야기를 나누다 보면 결정될 거야', value: 'F', score: 2 },
-      { text: '자유롭게 아이디어가 오가는 걸 더 중요시해', value: 'F', score: 3 }
+      { text: '회의록과 구체적 다음 단계까지 정리해', value: 'S', score: 3 },
+      { text: '회의 후에 할 일만 간단히 체크해', value: 'S', score: 2 },
+      { text: '편안하게 대화하다 보면 결정이 나오는 편이야', value: 'F', score: 2 },
+      { text: '자유로운 흐름 속에서 아이디어를 적극적으로 나눠', value: 'F', score: 3 }
     ]
   },
   {
@@ -58,7 +58,7 @@ const questions = [
     text: '예상치 못한 일이 생겼을 때 너는?',
     axis: '전략',
     options: [
-      { text: '그 상황을 바로 즐기고 유연하게 움직여', value: 'F', score: 3 },
+      { text: '그 상황을 바로 즐기면서 유연하게 움직여', value: 'F', score: 3 },
       { text: '예상 못한 일이라도 자연스럽게 넘길 수 있어', value: 'F', score: 2 },
       { text: '기존 계획을 빨리 수정해서 대응해', value: 'S', score: 2 },
       { text: '이럴 줄 알고 미리 준비해둔 대안을 활용해', value: 'S', score: 3 }
@@ -69,10 +69,10 @@ const questions = [
     text: '모임의 저녁 메뉴를 고를 때 너의 방식은?',
     axis: '전략',
     options: [
-      { text: '메뉴 후보를 상세히 비교하며 신중히 결정해', value: 'S', score: 3 },
-      { text: '몇 가지 메뉴를 추려놓고 비교하는 편이야', value: 'S', score: 2 },
-      { text: '그때 분위기에 따라 바로 메뉴를 정해', value: 'F', score: 2 },
-      { text: '마음이 끌리는 메뉴로 빠르게 결정해', value: 'F', score: 3 }
+      { text: '모든 메뉴의 장단점을 꼼꼼히 분석해', value: 'S', score: 3 },
+      { text: '몇 가지 옵션을 정리해놓고 신중히 골라', value: 'S', score: 2 },
+      { text: '즉석에서 그때그때 정하는 편이야', value: 'F', score: 2 },
+      { text: '바로 끌리는 메뉴를 바로 선택해', value: 'F', score: 3 }
     ]
   },
   {
@@ -80,10 +80,10 @@ const questions = [
     text: '팀에서 역할을 나눌 때 주로 너는?',
     axis: '초점',
     options: [
-      { text: '전체 흐름과 일정에 맞춰 역할을 제안해', value: 'X', score: 3 },
+      { text: '전체 일정과 목표를 우선으로 고려해', value: 'X', score: 3 },
       { text: '팀의 조화를 생각해서 역할을 나눠', value: 'X', score: 2 },
       { text: '팀 내에서 챙김이 필요한 친구를 맡아', value: 'I', score: 2 },
-      { text: '한 명 한 명 개인의 상태를 고려해 역할을 골라', value: 'I', score: 3 }
+      { text: '개인의 특성이나 필요를 최우선으로 생각해', value: 'I', score: 3 }
     ]
   },
   {
@@ -92,9 +92,9 @@ const questions = [
     axis: '초점',
     options: [
       { text: '개인의 구체적 기도제목을 세심히 기도해', value: 'I', score: 3 },
-      { text: '개인의 마음이 열리기를 중심으로 기도해', value: 'I', score: 2 },
+      { text: '한 사람 한 사람의 마음 상태에 집중해', value: 'I', score: 2 },
       { text: '사역지의 변화와 회복을 위해 기도해', value: 'X', score: 2 },
-      { text: '사역지의 사회적 변화를 강력하게 기도해', value: 'X', score: 3 }
+      { text: '그 나라의 사회적, 구조적 변화에 중점을 둬', value: 'X', score: 3 }
     ]
   },
   {
@@ -102,10 +102,10 @@ const questions = [
     text: '새로운 사역지에 도착하면 너는?',
     axis: '초점',
     options: [
-      { text: '전체 마을의 구조와 상황부터 파악해', value: 'X', score: 3 },
-      { text: '전반적인 분위기를 빠르게 살펴봐', value: 'X', score: 2 },
-      { text: '혼자 있는 사람이나 어려워 보이는 사람을 먼저 봐', value: 'I', score: 3 },
-      { text: '개인의 표정과 상태부터 세심히 체크해', value: 'I', score: 2 }
+      { text: '전체적인 마을의 환경과 상황부터 파악해', value: 'X', score: 3 },
+      { text: '사역지의 전반적인 분위기를 파악해', value: 'X', score: 2 },
+      { text: '어려워 보이는 개인에게 관심을 가져', value: 'I', score: 3 },
+      { text: '각자의 표정과 상태를 세심히 체크해', value: 'I', score: 2 }
     ]
   },
   {
@@ -113,9 +113,9 @@ const questions = [
     text: '어수선한 상황에서 너의 행동은?',
     axis: '실행',
     options: [
-      { text: '즉시 상황을 파악해 리더처럼 중심을 잡아', value: 'L', score: 3 },
+      { text: '상황을 정리하고 팀을 이끌어가', value: 'L', score: 3 },
       { text: '필요한 일부터 찾아서 바로 도와줘', value: 'L', score: 2 },
-      { text: '팀 결정을 기다리며 상황을 관찰해', value: 'B', score: 2 },
+      { text: '팀 결정을 기다리며 지원 준비를 해', value: 'B', score: 2 },
       { text: '리더의 지시에 따라 차분히 행동해', value: 'B', score: 3 }
     ]
   },
@@ -124,10 +124,10 @@ const questions = [
       text: '어떤 모임을 꾸릴 때, 너는?',
       axis: '실행',
       options: [
-        { text: '리더 역할은 조금 부담스럽고 필요한 걸 돕고 싶어', value: 'B', score: 3 },
-        { text: '리더가 정해지면 난 조용히 뒷받침하는 스타일', value: 'B', score: 2 },
-        { text: '굳이 앞에 안 서도 흐름은 주도하는 편이야', value: 'L', score: 2 },
-        { text: '팀 꾸리면 일단 역할 나누고 내가 총괄하는 편이야', value: 'L', score: 3 }
+        { text: '리더 역할은 조금 부담스럽고 필요한 걸 도와', value: 'B', score: 3 },
+        { text: '리더가 정해지면 조용히 뒷받침해', value: 'B', score: 2 },
+        { text: '굳이 앞에 안 서도 흐름을 주도하는 편이야', value: 'L', score: 2 },
+        { text: '역할을 나누며 총괄하는 역할을 해', value: 'L', score: 3 }
       ]
     },
     {
@@ -135,10 +135,10 @@ const questions = [
       text: '해야할 일이 예상 시간보다 오래 걸릴 때, 너는?',
       axis: '실행',
       options: [
-        { text: '지금부터 10분 안에 끝내자고 정리하고 푸시해', value: 'L', score: 3 },
-        { text: '시간을 언급하면서 서두르는 분위기를 몰아가.', value: 'L', score: 2 },
-        { text: '시간이 부족할 것 같아서 뒤에서 빠진 일을 챙겨', value: 'B', score: 2 },
-        { text: '시간 내에 마무리될 수 있도록 내 역할에 최선을 다해', value: 'B', score: 3 }
+        { text: '지금부터 10분 안에 끝내자고 푸시해', value: 'L', score: 3 },
+        { text: '시간을 언급하며 서두르는 분위기를 만들어', value: 'L', score: 2 },
+        { text: '시간이 부족할 것 같으니 뒤에서 빠진 일을 챙겨', value: 'B', score: 2 },
+        { text: '어서 마무리 되도록 내 역할에 최선을 다해', value: 'B', score: 3 }
       ]
     }
   ];
