@@ -15,54 +15,54 @@ const OutreachMBTIApp = () => {
       text: '누군가가 신앙 얘기를 꺼내면, 너는?',
       axis: '전달',
       options: [
-        { text: '“나 요즘 이런 생각했어” 하고 먼저 얘기 꺼냄', value: 'D', score: 3 },
-        { text: '분위기 좋으면 내 얘기도 자연스럽게 함', value: 'D', score: 2 },
-        { text: '이야기를 들으면서 표정과 리액션으로 반응함', value: 'C', score: 2 },
-        { text: '조용히 들어주면서 마음으로 공감하는 편', value: 'C', score: 3 }
+        { text: '“나 요즘 이런 생각했어” 하고 먼저 얘기를 꺼내', value: 'D', score: 3 },
+        { text: '분위기 좋으면 내 얘기도 자연스럽게 해', value: 'D', score: 2 },
+        { text: '먼저 이야기를 들어주며 표정과 리액션으로 반응해', value: 'C', score: 2 },
+        { text: '조용히 들어주면서 마음으로 깊이 공감하는 편', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q2',
-      text: '분위기가 어색할 때 어떻게 해?',
+      text: '사람들 사이에서 분위기가 어색할 때 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '어색한 분위기 못 참아서 먼저 말 걸고 리액션 담당해', value: 'D', score: 3 },
+        { text: '어색한 분위기 못 참고 분위기 전환 멘트를 날려', value: 'D', score: 3 },
         { text: '살짝 농담을 던져보며 어색함을 풀려 함', value: 'D', score: 2 },
-        { text: '눈치가 빨라서 일단 분위기를 살펴', value: 'C', score: 2 },
+        { text: '눈치 빠르게 일단은 분위기를 살펴', value: 'C', score: 2 },
         { text: '자연스럽게 분위기가 풀어지기를 기다리는 편', value: 'C', score: 3 }
       ]
     },
     {
       id: 'Q3',
-      text: '평소에 말할 때 어떤 스타일이야?',
+      text: '친구가 모임에서 이상한 얘기를 할 때, 너는 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '차근차근 공감하며 상대방의 마음을 열어보는 스타일이지', value: 'C', score: 3 },
-        { text: '상대방의 감정과 분위기를 신경쓰는 편', value: 'C', score: 2 },
-        { text: '중요한 포인트를 잘 정리하여 상대방에게 말하려고 해', value: 'D', score: 2 },
-        { text: '핵심 중심으로 요점을 이야기하는 편이야', value: 'D', score: 3 }
+        { text: '그 자리에선 그냥 두고, 나중에 친구 입장을 들어보기로 해', value: 'C', score: 3 },
+        { text: '친구가 무안할까봐 당장은 넘어가고, 분위기를 살펴', value: 'C', score: 2 },
+        { text: '끝나고 따로 불러서 조곤조곤 얘기해', value: 'D', score: 2 },
+        { text: '“그런데 그건..” 하고 짚고 넘어가', value: 'D', score: 3 }
       ]
     },
     {
       id: 'Q4',
-      text: '새로운 일을 하게 됐어. 너의 반응은?',
+      text: '팀 회의할 때, 너는?',
       axis: '전략',
       options: [
-        { text: '바로 일정과 리스트를 짜는 타입', value: 'S', score: 3 },
-        { text: '큰 틀은 잡고 움직여야지', value: 'S', score: 2 },
-        { text: '일단 시작하고 나서 방향을 잡아가자', value: 'F', score: 2 },
-        { text: '상황에 맞게 유연하게 대처하는 것이 효율적이야', value: 'F', score: 3 }
+        { text: '항상 회의록을 정리하고 다음 단계들을 정해두는 편', value: 'S', score: 3 },
+        { text: '회의 끝나고나서 할 일을 체크해', value: 'S', score: 2 },
+        { text: '일단 이야기 나누다 보면 자연스럽게 정리돼', value: 'F', score: 2 },
+        { text: '자유롭게 말이 오가야 좋은 아이디어가 나와', value: 'F', score: 3 }
       ]
     },
     {
       id: 'Q5',
-      text: '예상치 못한 상황이 터졌을 때, 너는?',
+      text: '아웃리치 일정 중 예상과 다르게 흐르면 너는?',
       axis: '전략',
       options: [
-        { text: '오히려 흥미진진해 즉흥적으로 대응 가능', value: 'F', score: 3 },
-        { text: '상황에 맞게 유연하게 변경하자', value: 'F', score: 2 },
-        { text: '얼른 정리해서 다시 가자', value: 'S', score: 2 },
-        { text: '당황스럽지만 원래 계획대로 갈 수 있어', value: 'S', score: 3 }
+        { text: '이런 게 재미지 바로 방향 틀어서 진행', value: 'F', score: 3 },
+        { text: '예상 밖 상황이 오면 유연하게 넘겨', value: 'F', score: 2 },
+        { text: '기존 계획을 상황에 맞게 수정하여 조정', value: 'S', score: 2 },
+        { text: '이럴 줄 알고 시나리오 몇 개 준비해뒀어', value: 'S', score: 3 }
       ]
     },
     {
@@ -76,70 +76,70 @@ const OutreachMBTIApp = () => {
         { text: '끌리는 메뉴가 있으면 그걸로 딱 결정', value: 'F', score: 3 }
       ]
     },
-     {
+         {
       id: 'Q7',
-      text: '아웃리치 중에 뭐가 제일 먼저 눈에 들어와?',
+      text: '아웃리치 팀에서 역할을 나눌 때 너는?',
       axis: '초점',
       options: [
-        { text: '이곳이 현재 어떤 상황에 처해있는지', value: 'X', score: 3 },
-        { text: '이곳 사람들이 어떻게 지내는지', value: 'X', score: 2 },
-        { text: '이곳 사람들 중에 누구의 표정이 굳어있는지', value: 'I', score: 2 },
-        { text: '이곳 어느 아이의 ', value: 'I', score: 3 }
+        { text: '전체 동선과 계획에 따라 팀 분배 제안을 해', value: 'X', score: 3 },
+        { text: '누구랑 누구를 붙여야 좋을지 머릿속에서 그림', value: 'X', score: 2 },
+        { text: '팀에서 낯설어하는 친구를 내가 챙김', value: 'I', score: 2 },
+        { text: '특별히 케어가 필요한 친구와 같이 움직임', value: 'I', score: 3 }
       ]
     },
     {
       id: 'Q8',
-      text: '아웃리치 중에 가장 오래 기억에 남는 장면이 무엇일 것 같아?',
+      text: '아웃리치를 위한 기도 제목을 나눌 때 너는?',
       axis: '초점',
       options: [
-        { text: '말 없던 친구가 작은 목소리로 “기도해볼래요” 하는 순간', value: 'I', score: 3 },
-        { text: '조심스럽게 마음을 열고 속 이야기를 시작하는 표정', value: 'I', score: 2 },
-        { text: '아웃리치팀이 큰 은혜를 받고서 환하게 ', value: 'X', score: 2 },
-        { text: '누구도 기대하지 않았던 변화가 마을 전체에서 퍼졌던 순간', value: 'X', score: 3 }
+        { text: '누군가의 구체적인 기도제목을 놓고 기도해', value: 'I', score: 3 },
+        { text: '한 명 한 명의 마음이 열리기를 기도해', value: 'I', score: 2 },
+        { text: '사역지에 긍정적인 변화가 생기기를 기도해', value: 'X', score: 2 },
+        { text: '아웃리치를 통해 그 사회가 변하기를 기도해', value: 'X', score: 3 }
       ]
     },
-    {
+     {
       id: 'Q9',
-      text: '넌 왜 아웃리치를 해? 뭐가 제일 중요해?',
+      text: '사역지에 도착했을 때, 너는 뭘 먼저 살펴?',
       axis: '초점',
       options: [
-        { text: '마을이 새로운 방식으로 돌아가기 시작할 때', value: 'X', score: 3 },
-        { text: '사역지 분위기가 환하게 바뀐 느낌이 들 때', value: 'X', score: 2 },
-        { text: '마음을 열고 먼저 다가오는 사람을 볼 때', value: 'I', score: 2 },
-        { text: '한 친구가 스스로 뭔가를 시도할 때', value: 'I', score: 3 }
+        { text: '이 마을은 어떤 구조로 돌아가는지, 큰 흐름이 궁금해', value: 'X', score: 3 },
+        { text: '여기가 어떤 분위기인지 전체적으로 느껴보려 해', value: 'X', score: 2 },
+        { text: '누구 얼굴이 굳어 있나, 마음이 닫혀있나 살펴봐', value: 'I', score: 2 },
+        { text: '조용히 있는 친구 한 명이라도 먼저 알아가고 싶어', value: 'I', score: 3 }
       ]
     },
     {
       id: 'Q10',
-      text: '상황이 어수선하면 자동으로 "일단 내가 정리할게" 모드 된다.',
+      text: '사역 현장 분위기가 좀 어수선해. 너는?',
       axis: '실행',
       options: [
-        { text: '완전 내 모습! 앞장서서 정리해', value: 'L', score: 3 },
-        { text: '그런 편이야', value: 'L', score: 2 },
-        { text: '상황 봐가면서', value: 'B', score: 2 },
-        { text: '아니야, 도와주는 게 더 편해', value: 'B', score: 3 }
+        { text: '뭐가 문제인지 쭉 훑고, 자연스럽게 중심을 잡아간다', value: 'L', score: 3 },
+        { text: '누가 뭘 필요로 하는지 살펴보다가 하나씩 도와주기 시작', value: 'L', score: 2 },
+        { text: '돌아가는 상황을 보고 판단하며 팀의 결정을 따름', value: 'B', score: 2 },
+        { text: '리더의 의견을 구하고 무엇을 할지 결정', value: 'B', score: 3 }
       ]
     },
     {
       id: 'Q11',
-      text: '앞에 서는 것보단, 뒤에서 정리하고 도와주는 포지션이 더 편하다.',
+      text: '어떤 모임을 꾸릴 때, 너는?',
       axis: '실행',
       options: [
-        { text: '완전 맞아! 서포트가 최고야', value: 'B', score: 3 },
-        { text: '그런 편이야', value: 'B', score: 2 },
-        { text: '경우에 따라 다른데', value: 'L', score: 2 },
-        { text: '아니야, 앞에서 이끄는 게 좋아', value: 'L', score: 3 }
+        { text: '리더 역할은 조금 부담스럽고 필요한 걸 돕고 싶어', value: 'B', score: 3 },
+        { text: '리더가 정해지면 난 조용히 뒷받침하는 스타일', value: 'B', score: 2 },
+        { text: '굳이 앞에 안 서도 흐름은 주도하는 편이야', value: 'L', score: 2 },
+        { text: '팀 꾸리면 일단 역할 나누고 내가 총괄하는 편이야', value: 'L', score: 3 }
       ]
     },
     {
       id: 'Q12',
-      text: '중요한 일일수록 "내가 맡고 끝내야 속이 시원"하다.',
+      text: '해야할 일이 예상 시간보다 오래 걸릴 때, 너는?',
       axis: '실행',
       options: [
-        { text: '완전 공감! 내가 해야 마음 편해', value: 'L', score: 3 },
-        { text: '그런 편이긴 해', value: 'L', score: 2 },
-        { text: '상황에 따라 다른 것 같은데', value: 'B', score: 2 },
-        { text: '아니야, 함께 하는 게 좋아', value: 'B', score: 3 }
+        { text: '지금부터 10분 안에 끝내자고 정리하고 푸시해', value: 'L', score: 3 },
+        { text: '시간을 언급하면서 서두르는 분위기를 몰아가.', value: 'L', score: 2 },
+        { text: '시간이 부족할 것 같아서 뒤에서 빠진 일을 챙겨', value: 'B', score: 2 },
+        { text: '시간 내에 마무리될 수 있도록 내 역할에 최선을 다해', value: 'B', score: 3 }
       ]
     }
   ];
