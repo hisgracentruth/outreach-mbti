@@ -1,19 +1,4 @@
-<div className="text-sm font-bold text-orange-700 mt-0.5">{result?.percentages?.execution?.leader || 50}%</div>
-                    </div>
-                    <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
-                      <div className="flex w-full h-full">
-                        <div 
-                          className="bg-orange-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.execution?.leader || 50}%` }}
-                        ></div>
-                        <div 
-                          className="bg-teal-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.execution?.backup || 50}%` }}
-                        ></div>
-                      </div>
-                    </div>
-                    <div className="w-20 text-center">
-                      <span className="text-xs text-timport React, { useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import { ChevronRight, RotateCcw, Heart, Users, Target, Lightbulb, Sparkles, Download } from 'lucide-react';
 
 const OutreachMBTIApp = () => {
@@ -615,60 +600,28 @@ const OutreachMBTIApp = () => {
     if (!resultRef.current) return;
     
     try {
-      // html2canvas를 CDN에서 직접 로드
-      if (!window.html2canvas) {
-        const script = document.createElement('script');
-        script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
-        script.onload = () => {
-          setTimeout(() => captureAndDownload(), 100);
-        };
-        script.onerror = () => {
-          alert('html2canvas 라이브러리를 로드할 수 없습니다. 네트워크 연결을 확인해주세요.');
-        };
-        document.head.appendChild(script);
-      } else {
-        captureAndDownload();
-      }
-    } catch (error) {
-      console.error('이미지 저장 중 오류가 발생했습니다:', error);
-      // 대체 방법: 브라우저의 스크린샷 기능 안내
-      alert('이미지 저장에 실패했습니다.\n대신 브라우저의 스크린샷 기능(Ctrl+Shift+S 또는 우클릭 > 스크린샷)을 사용해보세요.');
-    }
-  };
-
-  const captureAndDownload = async () => {
-    try {
-      const canvas = await window.html2canvas(resultRef.current, {
+      // html2canvas 라이브러리를 동적으로 로드
+      const html2canvas = await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
+      
+      const canvas = await html2canvas.default(resultRef.current, {
         backgroundColor: '#f8fafc',
-        scale: 2,
+        scale: 2, // 고해상도
         useCORS: true,
         allowTaint: true,
         scrollX: 0,
         scrollY: 0,
         width: resultRef.current.scrollWidth,
-        height: resultRef.current.scrollHeight,
-        logging: false
+        height: resultRef.current.scrollHeight
       });
       
-      // Canvas를 blob으로 변환
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const link = document.createElement('a');
-          link.download = `아웃리치_성향테스트_결과_${result?.nickname || '결과'}.png`;
-          link.href = url;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          URL.revokeObjectURL(url);
-        } else {
-          throw new Error('Canvas to blob conversion failed');
-        }
-      }, 'image/png', 0.9);
-      
+      // 이미지 다운로드
+      const link = document.createElement('a');
+      link.download = `아웃리치_성향테스트_결과_${result.nickname}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
     } catch (error) {
-      console.error('캡처 중 오류:', error);
-      alert('이미지 캡처에 실패했습니다. 브라우저의 스크린샷 기능을 사용해보세요.');
+      console.error('이미지 저장 중 오류가 발생했습니다:', error);
+      alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
     }
   };
 
@@ -784,10 +737,10 @@ const OutreachMBTIApp = () => {
         <div ref={resultRef} className="bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl p-4 sm:p-8 max-w-2xl w-full mx-1 sm:mx-4 relative shadow-2xl">
           {/* 결과 헤더 */}
           <div className="text-center mb-6 sm:mb-8">
-            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result?.emoji || '🎯'}</div>
-            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result?.nickname || '테스트 결과'}</h1>
+            <div className="text-7xl sm:text-9xl mb-4 sm:mb-6 animate-bounce">{result.emoji}</div>
+            <h1 className="text-2xl sm:text-4xl font-black text-gray-800 mb-2 tracking-tight">{result.nickname}</h1>
             <div className="inline-flex items-center bg-gradient-to-r from-indigo-100 to-purple-100 px-4 py-2 rounded-full border border-indigo-200/50">
-              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result?.code || 'TEST'}</span>
+              <span className="text-lg sm:text-xl font-bold text-indigo-700">{result.code}</span>
             </div>
           </div>
           
@@ -806,23 +759,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-blue-600 font-medium">선포형(D)</span>
-                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result?.percentages?.delivery?.direct || 50}%</div>
+                      <div className="text-sm font-bold text-blue-700 mt-0.5">{result.percentages.delivery.direct}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-blue-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.delivery?.direct || 50}%` }}
+                          style={{ width: `${result.percentages.delivery.direct}%` }}
                         ></div>
                         <div 
                           className="bg-pink-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.delivery?.companion || 50}%` }}
+                          style={{ width: `${result.percentages.delivery.companion}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-pink-500 font-medium">동행형(C)</span>
-                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result?.percentages?.delivery?.companion || 50}%</div>
+                      <div className="text-sm font-bold text-pink-600 mt-0.5">{result.percentages.delivery.companion}%</div>
                     </div>
                   </div>
                 </div>
@@ -832,23 +785,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-green-600 font-medium">계획형(S)</span>
-                      <div className="text-sm font-bold text-green-700 mt-0.5">{result?.percentages?.strategy?.structured || 50}%</div>
+                      <div className="text-sm font-bold text-green-700 mt-0.5">{result.percentages.strategy.structured}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-green-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.strategy?.structured || 50}%` }}
+                          style={{ width: `${result.percentages.strategy.structured}%` }}
                         ></div>
                         <div 
                           className="bg-yellow-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.strategy?.flexible || 50}%` }}
+                          style={{ width: `${result.percentages.strategy.flexible}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-yellow-500 font-medium">유동형(F)</span>
-                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result?.percentages?.strategy?.flexible || 50}%</div>
+                      <div className="text-sm font-bold text-yellow-600 mt-0.5">{result.percentages.strategy.flexible}%</div>
                     </div>
                   </div>
                 </div>
@@ -858,23 +811,23 @@ const OutreachMBTIApp = () => {
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
                       <span className="text-xs text-purple-600 font-medium">개인형(I)</span>
-                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result?.percentages?.focus?.individual || 50}%</div>
+                      <div className="text-sm font-bold text-purple-700 mt-0.5">{result.percentages.focus.individual}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
                       <div className="flex w-full h-full">
                         <div 
                           className="bg-purple-500 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.focus?.individual || 50}%` }}
+                          style={{ width: `${result.percentages.focus.individual}%` }}
                         ></div>
                         <div 
                           className="bg-indigo-400 h-2 transition-all duration-1000"
-                          style={{ width: `${result?.percentages?.focus?.structural || 50}%` }}
+                          style={{ width: `${result.percentages.focus.structural}%` }}
                         ></div>
                       </div>
                     </div>
                     <div className="w-20 text-center">
                       <span className="text-xs text-indigo-500 font-medium">구조형(X)</span>
-                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result?.percentages?.focus?.structural || 50}%</div>
+                      <div className="text-sm font-bold text-indigo-600 mt-0.5">{result.percentages.focus.structural}%</div>
                     </div>
                   </div>
                 </div>
@@ -913,7 +866,7 @@ const OutreachMBTIApp = () => {
                 나의 아웃리치 성향
               </h3>
               <div className="space-y-2">
-                {result?.description && (Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
+                {(Array.isArray(result.description) ? result.description : [result.description]).map((desc, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{desc}</p>
@@ -928,12 +881,12 @@ const OutreachMBTIApp = () => {
                 강점 & 재능
               </h3>
               <div className="space-y-2">
-                {result?.strengths?.map((strength, index) => (
+                {result.strengths.map((strength, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-emerald-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{strength}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
 
@@ -943,12 +896,12 @@ const OutreachMBTIApp = () => {
                 성장 포인트
               </h3>
               <div className="space-y-2">
-                {result?.cautions?.map((caution, index) => (
+                {result.cautions.map((caution, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-amber-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{caution}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
 
@@ -958,12 +911,12 @@ const OutreachMBTIApp = () => {
                 추천 사역
               </h3>
               <div className="space-y-2">
-                {result?.recommendedMinistry?.map((ministry, index) => (
+                {result.recommendedMinistry.map((ministry, index) => (
                   <div key={index} className="flex items-start space-x-3">
                     <div className="w-2 h-2 bg-violet-500 rounded-full mt-2 flex-shrink-0"></div>
                     <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{ministry}</p>
                   </div>
-                )) || []}
+                ))}
               </div>
             </div>
           </div>
