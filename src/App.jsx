@@ -8,118 +8,118 @@ const OutreachMBTIApp = () => {
   const [showResult, setShowResult] = useState(false);
   const [showIntro, setShowIntro] = useState(true);
 
-   const questions = [
-    {
-      id: 'Q1',
-      text: '친구들과 대화에서 신앙 이야기가 나오면, 너는?',
-      axis: '전달',
-      options: [
-        { text: '“나 요즘 이런 생각했어” 하고 먼저 얘기를 꺼내', value: 'D', score: 3 },
-        { text: '분위기 좋으면 내 얘기도 자연스럽게 해', value: 'D', score: 2 },
-        { text: '먼저 이야기를 들어주며 표정과 리액션으로 반응해', value: 'C', score: 2 },
-        { text: '조용히 들어주면서 마음으로 깊이 공감하는 편', value: 'C', score: 3 }
-      ]
-    },
-    {
-      id: 'Q2',
-      text: '사람들 사이에서 분위기가 어색할 때 어떻게 해?',
-      axis: '전달',
-      options: [
-        { text: '어색한 분위기를 전환하는 멘트를 날려', value: 'D', score: 3 },
-        { text: '조심스럽게 농담을 던져봐', value: 'D', score: 2 },
-        { text: '일단 눈치 빠르게 분위기를 지켜봐', value: 'C', score: 2 },
-        { text: '무리하지 않고 사람들의 감정을 살펴', value: 'C', score: 3 }
-      ]
-    },
-    {
-      id: 'Q3',
-      text: '친구가 모임에서 이상한 얘기를 할 때, 너는 어떻게 해?',
-      axis: '전달',
-      options: [
-        { text: '그 자리에선 그냥 두고, 나중에 친구 입장을 들어보기로 해', value: 'C', score: 3 },
-        { text: '친구가 무안할까봐 당장은 넘어가고, 분위기를 살펴', value: 'C', score: 2 },
-        { text: '끝나고 따로 불러서 조곤조곤 얘기해', value: 'D', score: 2 },
-        { text: '“그런데 그건..” 하고 짚고 넘어가', value: 'D', score: 3 }
-      ]
-    },
-    {
-      id: 'Q4',
-      text: '팀 회의할 때, 너는?',
-      axis: '전략',
-      options: [
-        { text: '항상 회의록을 정리하고 다음 단계들을 정해두는 편', value: 'S', score: 3 },
-        { text: '회의 끝나고나서 할 일을 체크해', value: 'S', score: 2 },
-        { text: '일단 이야기 나누다 보면 자연스럽게 정리돼', value: 'F', score: 2 },
-        { text: '자유롭게 말이 오가야 좋은 아이디어가 나와', value: 'F', score: 3 }
-      ]
-    },
-    {
-      id: 'Q5',
-      text: '아웃리치 일정 중 예상과 다르게 흐르면 너는?',
-      axis: '전략',
-      options: [
-        { text: '이런 게 재미지 바로 방향 틀어서 진행', value: 'F', score: 3 },
-        { text: '예상 밖 상황이 오면 유연하게 넘겨', value: 'F', score: 2 },
-        { text: '기존 계획을 상황에 맞게 수정하여 조정', value: 'S', score: 2 },
-        { text: '이럴 줄 알고 시나리오 몇 개 준비해뒀어', value: 'S', score: 3 }
-      ]
-    },
-    {
-      id: 'Q6',
-      text: '모임의 저녁 메뉴를 정해야 할 때 어떻게 해?',
-      axis: '전략',
-      options: [
-        { text: '메뉴 후보와 각각의 가격, 모임 인원들의 취향을 고려해', value: 'S', score: 3 },
-        { text: '모임에 적절한 메뉴 몇 개를 추려서 따져봐', value: 'S', score: 2 },
-        { text: '떠오르는 메뉴 몇 개 중 분위기 봐서 정해', value: 'F', score: 2 },
-        { text: '끌리는 메뉴가 있으면 그걸로 딱 결정', value: 'F', score: 3 }
-      ]
-    },
-         {
-      id: 'Q7',
-      text: '아웃리치 팀에서 역할을 나눌 때 너는?',
-      axis: '초점',
-      options: [
-        { text: '전체 동선과 계획에 따라 팀 분배 제안을 해', value: 'X', score: 3 },
-        { text: '누구랑 누구를 붙여야 좋을지 머릿속에서 그림', value: 'X', score: 2 },
-        { text: '팀에서 낯설어하는 친구를 내가 챙김', value: 'I', score: 2 },
-        { text: '특별히 케어가 필요한 친구와 같이 움직임', value: 'I', score: 3 }
-      ]
-    },
-    {
-      id: 'Q8',
-      text: '아웃리치를 위한 기도 제목을 나눌 때 너는?',
-      axis: '초점',
-      options: [
-        { text: '누군가의 구체적인 기도제목을 놓고 기도해', value: 'I', score: 3 },
-        { text: '한 명 한 명의 마음이 열리기를 기도해', value: 'I', score: 2 },
-        { text: '사역지에 긍정적인 변화가 생기기를 기도해', value: 'X', score: 2 },
-        { text: '아웃리치를 통해 그 사회가 변하기를 기도해', value: 'X', score: 3 }
-      ]
-    },
-     {
-      id: 'Q9',
-      text: '사역지에 도착했을 때, 너는 뭘 먼저 살펴?',
-      axis: '초점',
-      options: [
-        { text: '이 마을은 어떤 구조로 돌아가는지, 큰 흐름이 궁금해', value: 'X', score: 3 },
-        { text: '여기가 어떤 분위기인지 전체적으로 느껴보려 해', value: 'X', score: 2 },
-        { text: '누구 얼굴이 굳어 있나, 마음이 닫혀있나 살펴봐', value: 'I', score: 2 },
-        { text: '조용히 있는 친구 한 명이라도 먼저 알아가고 싶어', value: 'I', score: 3 }
-      ]
-    },
-    {
-      id: 'Q10',
-      text: '사역 현장 분위기가 좀 어수선해. 너는?',
-      axis: '실행',
-      options: [
-        { text: '뭐가 문제인지 쭉 훑고, 자연스럽게 중심을 잡아간다', value: 'L', score: 3 },
-        { text: '누가 뭘 필요로 하는지 살펴보다가 하나씩 도와주기 시작', value: 'L', score: 2 },
-        { text: '돌아가는 상황을 보고 판단하며 팀의 결정을 따름', value: 'B', score: 2 },
-        { text: '리더의 의견을 구하고 무엇을 할지 결정', value: 'B', score: 3 }
-      ]
-    },
-    {
+const questions = [
+  {
+    id: 'Q1',
+    text: '친구들과 신앙 이야기를 할 때, 너는 어떤 편이야?',
+    axis: '전달',
+    options: [
+      { text: '“나 이런 은혜가 있었어!” 하며 적극적으로 얘기해', value: 'D', score: 3 },
+      { text: '분위기가 맞으면 자연스럽게 내 이야기를 꺼내', value: 'D', score: 2 },
+      { text: '남들의 이야기를 듣고 리액션을 주는 편이야', value: 'C', score: 2 },
+      { text: '조용히 들으며 마음으로 공감해', value: 'C', score: 3 }
+    ]
+  },
+  {
+    id: 'Q2',
+    text: '사람들 사이가 어색할 때 너는 주로 어떻게 해?',
+    axis: '전달',
+    options: [
+      { text: '분위기 풀어주는 멘트로 적극적으로 끼어들어', value: 'D', score: 3 },
+      { text: '가벼운 농담으로 살짝 분위기를 바꿔봐', value: 'D', score: 2 },
+      { text: '눈치 빠르게 상황을 관찰하면서 기다려', value: 'C', score: 2 },
+      { text: '무리하지 않고 조용히 사람들의 감정을 파악해', value: 'C', score: 3 }
+    ]
+  },
+  {
+    id: 'Q3',
+    text: '친구가 잘못된 정보를 얘기하면 너는 어떻게 반응해?',
+    axis: '전달',
+    options: [
+      { text: '그 자리에서 바로 정정하고 넘어가', value: 'D', score: 3 },
+      { text: '모임 후에 개인적으로 친구에게 이야기해줘', value: 'D', score: 2 },
+      { text: '친구가 불편할까봐 일단 분위기를 맞춰줘', value: 'C', score: 2 },
+      { text: '그 자리에서는 넘어가고 나중에 상황을 살펴봐', value: 'C', score: 3 }
+    ]
+  },
+  {
+    id: 'Q4',
+    text: '팀 회의를 진행할 때 너의 스타일은?',
+    axis: '전략',
+    options: [
+      { text: '회의록을 정리하고 다음 단계를 확실히 해둬', value: 'S', score: 3 },
+      { text: '회의 후에 바로 할 일을 정리해놔', value: 'S', score: 2 },
+      { text: '자연스럽게 이야기를 나누다 보면 결정될 거야', value: 'F', score: 2 },
+      { text: '자유롭게 아이디어가 오가는 걸 더 중요시해', value: 'F', score: 3 }
+    ]
+  },
+  {
+    id: 'Q5',
+    text: '예상치 못한 일이 생겼을 때 너는?',
+    axis: '전략',
+    options: [
+      { text: '그 상황을 바로 즐기고 유연하게 움직여', value: 'F', score: 3 },
+      { text: '예상 못한 일이라도 자연스럽게 넘길 수 있어', value: 'F', score: 2 },
+      { text: '기존 계획을 빨리 수정해서 대응해', value: 'S', score: 2 },
+      { text: '이럴 줄 알고 미리 준비해둔 대안을 활용해', value: 'S', score: 3 }
+    ]
+  },
+  {
+    id: 'Q6',
+    text: '모임의 저녁 메뉴를 고를 때 너의 방식은?',
+    axis: '전략',
+    options: [
+      { text: '메뉴 후보를 상세히 비교하며 신중히 결정해', value: 'S', score: 3 },
+      { text: '몇 가지 메뉴를 추려놓고 비교하는 편이야', value: 'S', score: 2 },
+      { text: '그때 분위기에 따라 바로 메뉴를 정해', value: 'F', score: 2 },
+      { text: '마음이 끌리는 메뉴로 빠르게 결정해', value: 'F', score: 3 }
+    ]
+  },
+  {
+    id: 'Q7',
+    text: '팀에서 역할을 나눌 때 주로 너는?',
+    axis: '초점',
+    options: [
+      { text: '전체 흐름과 일정에 맞춰 역할을 제안해', value: 'X', score: 3 },
+      { text: '팀의 조화를 생각해서 역할을 나눠', value: 'X', score: 2 },
+      { text: '팀 내에서 챙김이 필요한 친구를 맡아', value: 'I', score: 2 },
+      { text: '한 명 한 명 개인의 상태를 고려해 역할을 골라', value: 'I', score: 3 }
+    ]
+  },
+  {
+    id: 'Q8',
+    text: '기도제목을 정할 때 너의 관심사는?',
+    axis: '초점',
+    options: [
+      { text: '개인의 구체적 기도제목을 세심히 기도해', value: 'I', score: 3 },
+      { text: '개인의 마음이 열리기를 중심으로 기도해', value: 'I', score: 2 },
+      { text: '사역지의 변화와 회복을 위해 기도해', value: 'X', score: 2 },
+      { text: '사역지의 사회적 변화를 강력하게 기도해', value: 'X', score: 3 }
+    ]
+  },
+  {
+    id: 'Q9',
+    text: '새로운 사역지에 도착하면 너는?',
+    axis: '초점',
+    options: [
+      { text: '전체 마을의 구조와 상황부터 파악해', value: 'X', score: 3 },
+      { text: '전반적인 분위기를 빠르게 살펴봐', value: 'X', score: 2 },
+      { text: '혼자 있는 사람이나 어려워 보이는 사람을 먼저 봐', value: 'I', score: 3 },
+      { text: '개인의 표정과 상태부터 세심히 체크해', value: 'I', score: 2 }
+    ]
+  },
+  {
+    id: 'Q10',
+    text: '어수선한 상황에서 너의 행동은?',
+    axis: '실행',
+    options: [
+      { text: '즉시 상황을 파악해 리더처럼 중심을 잡아', value: 'L', score: 3 },
+      { text: '필요한 일부터 찾아서 바로 도와줘', value: 'L', score: 2 },
+      { text: '팀 결정을 기다리며 상황을 관찰해', value: 'B', score: 2 },
+      { text: '리더의 지시에 따라 차분히 행동해', value: 'B', score: 3 }
+    ]
+  },
+  {
       id: 'Q11',
       text: '어떤 모임을 꾸릴 때, 너는?',
       axis: '실행',
