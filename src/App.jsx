@@ -595,33 +595,224 @@ const OutreachMBTIApp = () => {
     }
   };
 
-  // 이미지 저장 함수
+// 이미지 저장 함수
   const saveAsImage = async () => {
     if (!resultRef.current) return;
     
     try {
-      // html2canvas 라이브러리를 동적으로 로드
-      const html2canvas = await import('https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js');
-      
-      const canvas = await html2canvas.default(resultRef.current, {
-        backgroundColor: '#f8fafc',
-        scale: 2, // 고해상도
-        useCORS: true,
-        allowTaint: true,
-        scrollX: 0,
-        scrollY: 0,
-        width: resultRef.current.scrollWidth,
-        height: resultRef.current.scrollHeight
-      });
-      
-      // 이미지 다운로드
-      const link = document.createElement('a');
-      link.download = `아웃리치_성향테스트_결과_${result.nickname}.png`;
-      link.href = canvas.toDataURL('image/png');
-      link.click();
+      // 먼저 html2canvas 로드 시도
+      await loadHtml2Canvas();
+      await captureWithHtml2Canvas();
     } catch (error) {
-      console.error('이미지 저장 중 오류가 발생했습니다:', error);
-      alert('이미지 저장에 실패했습니다. 다시 시도해주세요.');
+      console.log('html2canvas 방식 실패, SVG 방식으로 시도:', error);
+      try {
+        await captureWithSVG();
+      } catch (svgError) {
+        console.log('SVG 방식도 실패, Canvas 방식으로 시도:', svgError);
+        await captureWithCanvas();
+      }
+    }
+  };
+
+  // html2canvas 라이브러리 로드
+  const loadHtml2Canvas = () => {
+    return new Promise((resolve, reject) => {
+      if (typeof window.html2canvas !== 'undefined') {
+        resolve();
+        return;
+      }
+
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+      script.onload = resolve;
+      script.onerror = reject;
+      document.head.appendChild(script);
+    });
+  };
+
+  // html2canvas를 사용한 캡처
+  const captureWithHtml2Canvas = async () => {
+    const canvas = await window.html2canvas(resultRef.current, {
+      backgroundColor: '#f8fafc',
+      scale: 2,
+      useCORS: true,
+      allowTaint: true,
+      logging: false,
+      scrollX: 0,
+      scrollY: 0,
+      width: resultRef.current.scrollWidth,
+      height: resultRef.current.scrollHeight
+    });
+    
+    downloadImage(canvas.toDataURL('image/png'));
+  };
+
+  // SVG 방식으로 캡처 (모바일 최적화)
+  const captureWithSVG = async () => {
+    const element = resultRef.current;
+    const rect = element.getBoundingClientRect();
+    
+    // 임시로 스타일 조정
+    const originalStyle = element.style.cssText;
+    element.style.position = 'relative';
+    element.style.zIndex = '9999';
+    element.style.backgroundColor = '#f8fafc';
+    
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    const scale = 2; // 고해상도
+    
+    canvas.width = rect.width * scale;
+    canvas.height = rect.height * scale;
+    ctx.scale(scale, scale);
+    
+    // 배경색 설정
+    ctx.fillStyle = '#f8fafc';
+    ctx.fillRect(0, 0, rect.width, rect.height);
+    
+    // 텍스트와 기본 도형으로 결과 그리기
+    await drawResultContent(ctx, rect.width);
+    
+    // 원래 스타일 복원
+    element.style.cssText = originalStyle;
+    
+    downloadImage(canvas.toDataURL('image/png'));
+  };
+
+  // Canvas에 직접 결과 내용 그리기
+  const drawResultContent = async (ctx, width) => {
+    ctx.font = 'bold 24px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#1f2937';
+    ctx.textAlign = 'center';
+    
+    let y = 60;
+    
+    // 이모지와 제목
+    ctx.font = '48px system-ui';
+    ctx.fillText(result.emoji, width/2, y);
+    y += 80;
+    
+    ctx.font = 'bold 28px system-ui, -apple-system, sans-serif';
+    ctx.fillText(result.nickname, width/2, y);
+    y += 50;
+    
+    ctx.font = 'bold 18px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#6366f1';
+    ctx.fillText(result.code, width/2, y);
+    y += 60;
+    
+    // 성향 분석
+    ctx.font = 'bold 16px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#374151';
+    ctx.textAlign = 'left';
+    ctx.fillText('🎯 나의 성향 분석', 40, y);
+    y += 40;
+    
+    // 각 축별 비율 표시
+    const axes = [
+      { name: '전달방식', d: result.percentages.delivery.direct, c: result.percentages.delivery.companion, dName: '선포형', cName: '동행형' },
+      { name: '사역전략', d: result.percentages.strategy.structured, c: result.percentages.strategy.flexible, dName: '계획형', cName: '유동형' },
+      { name: '사역초점', d: result.percentages.focus.individual, c: result.percentages.focus.structural, dName: '개인형', cName: '구조형' },
+      { name: '실행방식', d: result.percentages.execution.leader, c: result.percentages.execution.backup, dName: '리더형', cName: '백업형' }
+    ];
+    
+    axes.forEach(axis => {
+      ctx.font = '14px system-ui, -apple-system, sans-serif';
+      ctx.fillStyle = '#6b7280';
+      ctx.fillText(`${axis.dName} ${axis.d}% | ${axis.c}% ${axis.cName}`, 60, y);
+      y += 25;
+    });
+    
+    y += 20;
+    
+    // 강점
+    ctx.font = 'bold 16px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#059669';
+    ctx.fillText('✨ 주요 강점', 40, y);
+    y += 30;
+    
+    ctx.font = '12px system-ui, -apple-system, sans-serif';
+    ctx.fillStyle = '#374151';
+    result.strengths.slice(0, 2).forEach(strength => {
+      const lines = wrapText(ctx, `• ${strength}`, width - 80);
+      lines.forEach(line => {
+        ctx.fillText(line, 60, y);
+        y += 20;
+      });
+      y += 5;
+    });
+  };
+
+  // 텍스트 줄바꿈 헬퍼 함수
+  const wrapText = (ctx, text, maxWidth) => {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = words[0];
+    
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const width = ctx.measureText(currentLine + ' ' + word).width;
+      if (width < maxWidth) {
+        currentLine += ' ' + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    lines.push(currentLine);
+    return lines;
+  };
+
+  // Canvas 직접 그리기 방식 (최종 대안)
+  const captureWithCanvas = async () => {
+    const canvas = document.createElement('canvas');
+    const ctx = canvas.getContext('2d');
+    
+    canvas.width = 800;
+    canvas.height = 1200;
+    
+    // 배경 그라데이션
+    const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
+    gradient.addColorStop(0, '#dbeafe');
+    gradient.addColorStop(0.5, '#fdf4ff');
+    gradient.addColorStop(1, '#fce7f3');
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    // 카드 배경
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+    ctx.roundRect(40, 40, canvas.width - 80, canvas.height - 80, 20);
+    ctx.fill();
+    
+    await drawResultContent(ctx, canvas.width - 80);
+    
+    downloadImage(canvas.toDataURL('image/png'));
+  };
+
+  // 이미지 다운로드 실행
+  const downloadImage = (dataURL) => {
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
+    if (isMobile) {
+      // 모바일에서는 새 창으로 이미지 표시
+      const newWindow = window.open();
+      newWindow.document.write(`
+        <html>
+          <head><title>테스트 결과</title></head>
+          <body style="margin:0; display:flex; justify-content:center; align-items:center; min-height:100vh; background:#f3f4f6;">
+            <div style="text-align:center;">
+              <img src="${dataURL}" style="max-width:100%; height:auto; border-radius:10px; box-shadow:0 4px 20px rgba(0,0,0,0.1);">
+              <p style="margin-top:20px; color:#6b7280; font-family:system-ui;">이미지를 길게 눌러서 저장하세요</p>
+            </div>
+          </body>
+        </html>
+      `);
+    } else {
+      // 데스크톱에서는 직접 다운로드
+      const link = document.createElement('a');
+      link.download = `아웃리치_성향테스트_결과_${result.nickname.replace(/[^a-zA-Z0-9가-힣]/g, '_')}.png`;
+      link.href = dataURL;
+      link.click();
     }
   };
 
