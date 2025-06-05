@@ -12,7 +12,7 @@ const OutreachMBTIApp = () => {
    const questions = [
     {
       id: 'Q1',
-      text: '누군가가 신앙 얘기를 꺼내면, 너는?',
+      text: '친구들과 대화에서 신앙 이야기가 나오면, 너는?',
       axis: '전달',
       options: [
         { text: '“나 요즘 이런 생각했어” 하고 먼저 얘기를 꺼내', value: 'D', score: 3 },
@@ -26,10 +26,10 @@ const OutreachMBTIApp = () => {
       text: '사람들 사이에서 분위기가 어색할 때 어떻게 해?',
       axis: '전달',
       options: [
-        { text: '어색한 분위기 못 참고 분위기 전환 멘트를 날려', value: 'D', score: 3 },
-        { text: '살짝 농담을 던져보며 어색함을 풀려 함', value: 'D', score: 2 },
-        { text: '눈치 빠르게 일단은 분위기를 살펴', value: 'C', score: 2 },
-        { text: '자연스럽게 분위기가 풀어지기를 기다리는 편', value: 'C', score: 3 }
+        { text: '어색한 분위기를 전환하는 멘트를 날려', value: 'D', score: 3 },
+        { text: '조심스럽게 농담을 던져봐', value: 'D', score: 2 },
+        { text: '일단 눈치 빠르게 분위기를 지켜봐', value: 'C', score: 2 },
+        { text: '무리하지 않고 사람들의 감정을 살펴', value: 'C', score: 3 }
       ]
     },
     {
