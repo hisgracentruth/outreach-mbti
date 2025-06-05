@@ -594,6 +594,7 @@ const OutreachMBTIApp = () => {
     }
   };
 
+
   const handleAnswer = (option) => {
     const newAnswers = { ...answers, [questions[currentQuestion].id]: option };
     setAnswers(newAnswers);
@@ -793,7 +794,12 @@ const OutreachMBTIApp = () => {
                 <Heart className="w-5 h-5 mr-3" />
                 나의 아웃리치 성향
               </h3>
-              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{result.description}</p>
+              <div className="space-y-2">
+                <div className="flex items-start space-x-3">
+                  <div className="w-2 h-2 bg-rose-500 rounded-full mt-2 flex-shrink-0"></div>
+                  <p className="text-gray-700 text-sm sm:text-base leading-relaxed">{result.description}</p>
+                </div>
+              </div>
             </div>
 
             <div className="bg-gradient-to-r from-emerald-100/90 to-teal-100/90 backdrop-blur-sm border border-emerald-200/50 rounded-2xl p-4 sm:p-6">
