@@ -714,7 +714,7 @@ const OutreachMBTIApp = () => {
                 <div>
                   <div className="flex items-center space-x-4">
                     <div className="w-20 text-center">
-                      <span className="text-xs text-green-600 font-medium">구조형(S)</span>
+                      <span className="text-xs text-green-600 font-medium">계획형(S)</span>
                       <div className="text-sm font-bold text-green-700 mt-0.5">{result.percentages.strategy.structured}%</div>
                     </div>
                     <div className="flex-1 bg-gray-50 rounded-full h-2 overflow-hidden border border-gray-200 shadow-inner">
