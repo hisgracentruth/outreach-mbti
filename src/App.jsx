@@ -613,32 +613,32 @@ const calculateResult = (finalAnswers) => {
       scores[answer.value] += answer.score;
     });
 
-    // 절대 점수 기준으로 퍼센티지 계산 (9점 = 100%)
-    const calculateAbsolutePercentage = (score1, score2) => {
-      const maxScore = 9; // 최고점
+    // 각 축에서 3점이 최고점이므로, 실제 점수를 3점 기준으로 계산
+    const calculatePercentage = (score1, score2) => {
+      const maxScorePerAxis = 9; // 3문항 × 3점 = 9점이 최고
       
-      // 각 점수를 절대 기준으로 퍼센티지 계산
-      const percent1 = Math.round((score1 / maxScore) * 100);
-      const percent2 = Math.round((score2 / maxScore) * 100);
-      const total = percent1 + percent2;
+      // 실제로는 score1 + score2 = 총 답변한 점수
+      // 각 점수를 최대 9점 기준으로 퍼센티지 계산
+      const total = score1 + score2;
       
-      // 둘 다 0점인 경우만 50:50으로 처리
       if (total === 0) {
         return { first: 50, second: 50 };
       }
       
-      // 합이 100%가 되도록 비율로 정규화
+      const percent1 = Math.round((score1 / total) * 100);
+      const percent2 = Math.round((score2 / total) * 100);
+      
       return {
-        first: Math.round((percent1 / total) * 100),
-        second: Math.round((percent2 / total) * 100)
+        first: percent1,
+        second: percent2
       };
     };
 
-    // 각 축별 절대 점수 기준 비율 계산
-    const deliveryRatio = calculateAbsolutePercentage(scores.D, scores.C);
-    const strategyRatio = calculateAbsolutePercentage(scores.S, scores.F);
-    const focusRatio = calculateAbsolutePercentage(scores.I, scores.X);
-    const executionRatio = calculateAbsolutePercentage(scores.L, scores.B);
+    // 각 축별 비율 계산
+    const deliveryRatio = calculatePercentage(scores.D, scores.C);
+    const strategyRatio = calculatePercentage(scores.S, scores.F);
+    const focusRatio = calculatePercentage(scores.I, scores.X);
+    const executionRatio = calculatePercentage(scores.L, scores.B);
 
     const percentages = {
       delivery: {
