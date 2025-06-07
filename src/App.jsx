@@ -606,27 +606,25 @@ const questions = [
     }
   };
 
-const calculateResult = (finalAnswers) => {
+  const calculateResult = (finalAnswers) => {
     const scores = { D: 0, C: 0, S: 0, F: 0, I: 0, X: 0, L: 0, B: 0 };
     
     Object.values(finalAnswers).forEach(answer => {
       scores[answer.value] += answer.score;
     });
 
-    // 각 축에서 3점이 최고점이므로, 실제 점수를 3점 기준으로 계산
+    // 각 축에서 최대 9점 기준으로 실제 퍼센티지 계산
     const calculatePercentage = (score1, score2) => {
       const maxScorePerAxis = 9; // 3문항 × 3점 = 9점이 최고
       
-      // 실제로는 score1 + score2 = 총 답변한 점수
-      // 각 점수를 최대 9점 기준으로 퍼센티지 계산
-      const total = score1 + score2;
+      // 각 점수를 9점 기준으로 퍼센티지 계산
+      const percent1 = Math.round((score1 / maxScorePerAxis) * 100);
+      const percent2 = Math.round((score2 / maxScorePerAxis) * 100);
       
-      if (total === 0) {
+      // 둘 다 0점인 경우 50:50
+      if (percent1 === 0 && percent2 === 0) {
         return { first: 50, second: 50 };
       }
-      
-      const percent1 = Math.round((score1 / total) * 100);
-      const percent2 = Math.round((score2 / total) * 100);
       
       return {
         first: percent1,
@@ -668,6 +666,7 @@ const calculateResult = (finalAnswers) => {
     setResult({...results[resultType], percentages, code: resultType});
     setShowResult(true);
   };
+
 
   const resetTest = () => {
     setCurrentQuestion(0);
