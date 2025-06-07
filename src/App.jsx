@@ -883,6 +883,15 @@ const calculateResult = (finalAnswers) => {
             <RotateCcw className="w-5 h-5 mr-3" />
             다시 테스트하기
           </button>
+
+            {/* Footer */}
+            <div className="mt-6 pt-4 border-t border-gray-200/50 text-center">
+              <p className="text-xs text-gray-500">
+                Made by{' '}
+                <span className="font-semibold text-gray-600">Dongha</span>(Onnuri SNS)
+              </p>
+            </div>
+          
         </div>
       </div>
     );
@@ -942,11 +951,21 @@ const calculateResult = (finalAnswers) => {
               테스트 시작하기
               <ChevronRight className="w-5 h-5 ml-3" />
             </button>
+
+            {/* Footer */}
+            <div className="mt-6 pt-4 border-t border-gray-200/50 text-center">
+              <p className="text-xs text-gray-500">
+                Made by{' '}
+                <span className="font-semibold text-gray-600">Dongha</span>(Onnuri SNS)
+              </p>
+            </div>
+            
           </div>
         </div>
       </div>
     );
   }
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-100 via-purple-50 to-pink-100 flex items-center justify-center p-1 sm:p-4 relative overflow-hidden">
