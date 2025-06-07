@@ -613,21 +613,20 @@ const questions = [
       scores[answer.value] += answer.score;
     });
 
-    // 각 축에서 점수 비율 계산 (합이 항상 100%가 되도록)
+    // 각 축에서 최대 9점 기준으로 실제 성향 비율 계산
     const calculatePercentage = (score1, score2) => {
       const maxScorePerAxis = 9; // 3문항 × 3점 = 9점이 최고
       
-      // 실제 받은 총 점수 (항상 9점이어야 함)
-      const totalScore = score1 + score2;
+      const adjustedScore1 = score1;
+      const adjustedScore2 = maxScorePerAxis - score1;
       
-      // 둘 다 0점인 경우 50:50
-      if (totalScore === 0) {
+      if (adjustedScore1 === 0 && adjustedScore2 === 0) {
         return { first: 50, second: 50 };
       }
       
-      // 각 점수의 비율 계산 (합이 100%가 되도록)
-      const percent1 = Math.round((score1 / totalScore) * 100);
-      const percent2 = 100 - percent1; // 나머지는 반대축
+      const total = adjustedScore1 + adjustedScore2; // 항상 9점
+      const percent1 = Math.round((adjustedScore1 / total) * 100);
+      const percent2 = 100 - percent1;
       
       return {
         first: percent1,
@@ -669,7 +668,6 @@ const questions = [
     setResult({...results[resultType], percentages, code: resultType});
     setShowResult(true);
   };
-
   const resetTest = () => {
     setCurrentQuestion(0);
     setAnswers({});
