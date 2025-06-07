@@ -917,7 +917,7 @@ const questions = [
             </h1>
             <p className="text-gray-600 mb-6 sm:mb-8 leading-relaxed text-sm sm:text-base px-2 sm:px-0 font-medium">
               12개의 질문으로 당신만의 사역 스타일을 발견하고,<br/>
-              16가지 개성 넘치는 캐릭터 중 당신의 모습을 찾아보세요!
+              16가지 개성 넘치는 동물 중 당신의 모습을 찾아보세요!
             </p>
             
             <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6 sm:mb-8">
