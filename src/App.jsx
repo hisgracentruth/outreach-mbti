@@ -670,7 +670,6 @@ const questions = [
     setShowResult(true);
   };
 
-
   const resetTest = () => {
     setCurrentQuestion(0);
     setAnswers({});
