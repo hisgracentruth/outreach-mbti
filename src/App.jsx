@@ -606,7 +606,7 @@ const questions = [
     }
   };
 
-  const calculateResult = (finalAnswers) => {
+const calculateResult = (finalAnswers) => {
     const scores = { D: 0, C: 0, S: 0, F: 0, I: 0, X: 0, L: 0, B: 0 };
     
     Object.values(finalAnswers).forEach(answer => {
@@ -615,17 +615,14 @@ const questions = [
 
     // 각 축에서 최대 9점 기준으로 실제 성향 비율 계산
     const calculatePercentage = (score1, score2) => {
-      const maxScorePerAxis = 9; // 3문항 × 3점 = 9점이 최고
-      
-      const adjustedScore1 = score1;
-      const adjustedScore2 = maxScorePerAxis - score1;
-      
-      if (adjustedScore1 === 0 && adjustedScore2 === 0) {
+      // 둘 다 0점인 경우 50:50
+      if (score1 === 0 && score2 === 0) {
         return { first: 50, second: 50 };
       }
       
-      const total = adjustedScore1 + adjustedScore2; // 항상 9점
-      const percent1 = Math.round((adjustedScore1 / total) * 100);
+      // 첫 번째 축의 절대 퍼센티지 (9점 만점 기준)
+      const percent1 = Math.round((score1 / 9) * 100);
+      // 두 번째 축은 나머지
       const percent2 = 100 - percent1;
       
       return {
@@ -668,6 +665,7 @@ const questions = [
     setResult({...results[resultType], percentages, code: resultType});
     setShowResult(true);
   };
+  
   const resetTest = () => {
     setCurrentQuestion(0);
     setAnswers({});
