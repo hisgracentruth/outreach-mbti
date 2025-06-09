@@ -606,24 +606,25 @@ const questions = [
     }
   };
 
-const calculateResult = (finalAnswers) => {
+  const calculateResult = (finalAnswers) => {
     const scores = { D: 0, C: 0, S: 0, F: 0, I: 0, X: 0, L: 0, B: 0 };
     
     Object.values(finalAnswers).forEach(answer => {
       scores[answer.value] += answer.score;
     });
 
-    // 각 축에서 최대 9점 기준으로 실제 성향 비율 계산
+    // 각 축에서 9점 만점 기준으로 절대 비율 계산
     const calculatePercentage = (score1, score2) => {
-      // 둘 다 0점인 경우 50:50
-      if (score1 === 0 && score2 === 0) {
+      const maxScore = 9; // 각 축의 최대 점수
+      
+      // 각 축의 절대 퍼센티지 계산 (9점 만점 기준)
+      const percent1 = Math.round((score1 / maxScore) * 100);
+      const percent2 = Math.round((score2 / maxScore) * 100);
+      
+      // 둘 다 0점인 경우만 50:50
+      if (percent1 === 0 && percent2 === 0) {
         return { first: 50, second: 50 };
       }
-      
-      // 첫 번째 축의 절대 퍼센티지 (9점 만점 기준)
-      const percent1 = Math.round((score1 / 9) * 100);
-      // 두 번째 축은 나머지
-      const percent2 = 100 - percent1;
       
       return {
         first: percent1,
