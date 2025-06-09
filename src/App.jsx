@@ -613,27 +613,41 @@ const calculateResult = (finalAnswers) => {
       scores[answer.value] += answer.score;
     });
 
-    // 2단계 계산: 절대 기준 → 상대 비율 조정
+    // 각 문항마다 3점이 반드시 배분되는 계산법
     const calculatePercentage = (score1, score2) => {
-      const maxScore = 9; // 각 축의 최대 점수
+      // 총 9점이 반드시 배분되어야 함
+      // 한쪽 축에서 못 받은 점수는 자동으로 반대축으로 계산
+      const totalPossibleScore = 9;
       
-      // 1단계: 각 축의 절대 퍼센티지 계산 (9점 만점 기준)
-      const absolutePercent1 = Math.round((score1 / maxScore) * 100);
-      const absolutePercent2 = Math.round((score2 / maxScore) * 100);
+      let adjustedScore1 = score1;
+      let adjustedScore2 = score2;
+      
+      // 만약 실제 받은 총점이 9점보다 적다면, 나머지는 반대축 성향으로 간주
+      const actualTotal = score1 + score2;
+      if (actualTotal < totalPossibleScore) {
+        const missing = totalPossibleScore - actualTotal;
+        // 점수를 못 받은 축에 나머지를 추가
+        if (score2 === 0) {
+          adjustedScore2 = missing;
+        } else if (score1 === 0) {
+          adjustedScore1 = missing;
+        }
+        // 혼합인 경우에도 총 9점이 되도록 보정하지 않음 (실제 점수 사용)
+      }
+      
+      const finalTotal = adjustedScore1 + adjustedScore2;
       
       // 둘 다 0점인 경우 50:50
-      if (absolutePercent1 === 0 && absolutePercent2 === 0) {
+      if (finalTotal === 0) {
         return { first: 50, second: 50 };
       }
       
-      // 2단계: 두 퍼센티지를 합쳐서 전체 100%로 재조정
-      const totalPercent = absolutePercent1 + absolutePercent2;
-      const finalPercent1 = Math.round((absolutePercent1 / totalPercent) * 100);
-      const finalPercent2 = 100 - finalPercent1;
+      const percent1 = Math.round((adjustedScore1 / finalTotal) * 100);
+      const percent2 = 100 - percent1;
       
       return {
-        first: finalPercent1,
-        second: finalPercent2
+        first: percent1,
+        second: percent2
       };
     };
 
